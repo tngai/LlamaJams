@@ -36,12 +36,12 @@ module.exports = {
 	},
 
 	//NEW HOST
-	createPlaylist: function(req, res) {
+	createPlaylist: function(firstName) {
 		//create PLAYLIST CODE
-		var playlistCode = req.body.name + Math.floor(Math.random()*100);
+		var playlistCode = firstName + Math.floor(Math.random()*100);
 		//create TOKEN
-		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": req.body.playlistCode, "isOwner": true});
-		console.log('HOST TOKEN:', token);
+		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true});
+		console.log('HOST TOKEN CREATED:', token);
 
 		//authenticate with new TOKEN to take user to PLAYLIST page
 		ref.authWithCustomToken(token, function(error, authData) {
@@ -57,10 +57,12 @@ module.exports = {
 				}
 				var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
 				playlistRef.set(refactored);
-				//send back PLAYLIST object
-				res.json({token: token, playlistCode: playlistCode, playlist: refactored.playlist});
+				
+				window.localStorage.setItem('token', token);
+				console.log("PLAYLIST CODE CREATED:", playlistCode);
 			}
 		});
+		return playlistCode;
 	},
 
 	//GUEST
@@ -86,7 +88,6 @@ module.exports = {
 			}
 		});
 	}
-
-
-
 }
+
+
