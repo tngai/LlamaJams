@@ -1,28 +1,55 @@
 var React = require('react');
 var Auth = require('./auth/auth');
 var Playlist = require('./playlist/playlist');
+var helpers = require('../utils/helpers');
 
 var Main = React.createClass({
 	getInitialState: function() {
 	  return {
 	    showAuth: true,
-	    showPlaylist: false
+	    showPlaylist: false,
+	    playlistCode: ''
 	  };
 	},
 
 	showInput: function(){
 	  // retrieve token from local storage
 	  var jwt = window.localStorage.getItem('token');
-	  // when Host button is pushed, input bar will be shown
-
-	  //if token exists, take user to playlist
+	  console.log("inside showInput:", this.state.playlistCode);
+	  // if token exists, take user to playlist
 	  if (jwt) {
-	    //take to playlist
-	    this.setState({showAuth: false});
-	    this.setState({showPlaylist: true});
+  		// change trigger state
+  		this.setState({showAuth: false});
+  		this.setState({showPlaylist: true});
+	    // save context in variable
+	    var self = this;
+
+	    // authenticate token
+	    helpers.authHost(jwt)
+	    	.then(function(data) {
+	    		console.log('AUTH SUCCESSFUL ON RETURN:', data);
+	    		self.setState({playlistCode: data.auth.playlistCode});
+	    	})
+	    	.catch(function(err) {
+	    		console.log(err);
+	    	})
+
 	  } else {
-	    console.log('We have TOKEN');
+	    console.log('NO TOKEN FOUND');
+	    // if no token but playlist code exists, take user to playlist
+	    if (this.state.playlistCode.length > 0) {
+	    	console.log('inside else statement of showinput:', this.state.playlistCode);
+	    	this.setState({showAuth: false});
+	    	this.setState({showPlaylist: true});
+	    }
 	  }
+	},
+
+	updateCode: function(newCode) {
+		console.log('before stateChange:', newCode);
+		// change playlist code and re-render main component
+		this.setState({playlistCode: newCode}, this.showInput);
+		console.log('in updateCode:', this.state.playlistCode);
 	},
 
 	componentWillMount: function() {
@@ -33,15 +60,20 @@ var Main = React.createClass({
     return (
       <div>
         <div>
-          {this.state.showAuth ? <Auth /> : null}
+          {this.state.showAuth  ? <Auth updateCode={this.updateCode}/> : null}
         </div>
 
         <div>
-          {this.state.showPlaylist ? <Playlist /> : null}
+          {this.state.showPlaylist ? <Playlist playlistCode={this.state.playlistCode}/> : null}
         </div>
+
+      	<h1>{this.state.playlistCode}</h1>
+
       </div>
     )
   }
+	
+
 });
 
 React.render(<Main />, document.getElementById('app'));

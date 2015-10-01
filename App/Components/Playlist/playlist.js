@@ -4,7 +4,7 @@ var Playlist = React.createClass({
 
 	render: function() {
 		return (
-			<div>Hello</div>
+			<div>{this.props.playlistCode}Helloooooo</div>
 		);
 	}
 

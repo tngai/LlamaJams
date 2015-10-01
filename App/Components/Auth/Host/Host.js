@@ -1,29 +1,28 @@
 var React = require('react');
 var Router = require('react-router');
 
-var HostButton = require('./host/hostbutton');
-var InputBar = require('./host/inputbar');
+var HostButton = require('./hostbutton');
+var InputBar = require('./inputbar');
 
 var Host = React.createClass({
   getInitialState: function() {
     return {
-      showInputBar: false,
-      showButton: true
+      showButton: true,
+      showInputBar: false
     };
   },
 
   showInput: function(){
     // retrieve token from local storage
     var jwt = window.localStorage.getItem('token');
-    // when Host button is pushed, input bar will be shown
 
     //if token exists, take user to playlist
     if (jwt) {
       //take to playlist
       console.log('We have TOKEN');
     } else {
-      this.setState({showInputBar: true});
       this.setState({showButton: false});
+      this.setState({showInputBar: true});
     }
   },
 
@@ -36,7 +35,7 @@ var Host = React.createClass({
         </div>
 
         <div>
-          {this.state.showInputBar ? <InputBar /> : null}
+          {this.state.showInputBar ? <InputBar {...this.props}/> : null}
         </div>
       </div>
     );
