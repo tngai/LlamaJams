@@ -1,10 +1,14 @@
 var React = require('react');
+var Router = require('react-router');
+
+var HostButton = require('./host/hostbutton');
+var InputBar = require('./host/inputbar');
 
 var Host = React.createClass({
   getInitialState: function() {
     return {
       showInputBar: false,
-      showButton: true 
+      showButton: true
     };
   },
 
@@ -16,6 +20,7 @@ var Host = React.createClass({
     //if token exists, take user to playlist
     if (jwt) {
       //take to playlist
+      console.log('We have TOKEN');
     } else {
       this.setState({showInputBar: true});
       this.setState({showButton: false});
@@ -27,7 +32,7 @@ var Host = React.createClass({
       <div>
         <h1>Host</h1>
         <div>
-          {this.state.showButton ? <Button showInput={this.showInput}/> : null}
+          {this.state.showButton ? <HostButton showInput={this.showInput}/> : null}
         </div>
 
         <div>
@@ -40,22 +45,14 @@ var Host = React.createClass({
 });
 
 
-var Button = React.createClass({
-  render: function(){
-    return (
-      <button onClick={this.props.showInput} className='host-button'>Host</button>
-    );
-  }
-});
 
-var InputBar = React.createClass({
-  render: function(){
-    return (
-      <form>
-        <input type='text' placeholder='First Name' />
-      </form>
-    );
-  }
-});
 
 module.exports = Host;
+
+
+
+
+
+
+
+
