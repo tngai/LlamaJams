@@ -52,77 +52,82 @@
 	var helpers = __webpack_require__(200);
 
 	var Main = React.createClass({
-		displayName: 'Main',
+			displayName: 'Main',
 
-		getInitialState: function getInitialState() {
-			return {
-				showAuth: true,
-				showPlaylist: false,
-				playlistCode: ''
-			};
-		},
+			getInitialState: function getInitialState() {
 
-		showInput: function showInput() {
-			// retrieve token from local storage
-			var jwt = window.localStorage.getItem('token');
-			console.log("inside showInput:", this.state.playlistCode);
-			// if token exists, take user to playlist
-			if (jwt) {
-				// change trigger state
-				this.setState({ showAuth: false });
-				this.setState({ showPlaylist: true });
-				// save context in variable
-				var self = this;
+					return {
+							showAuth: true,
+							showPlaylist: false,
+							playlistCode: ''
+					};
+			},
 
-				// authenticate token
-				helpers.authHost(jwt).then(function (data) {
-					console.log('AUTH SUCCESSFUL ON RETURN:', data);
-					self.setState({ playlistCode: data.auth.playlistCode });
-				})['catch'](function (err) {
-					console.log(err);
-				});
-			} else {
-				console.log('NO TOKEN FOUND');
-				if (this.state.playlistCode.length > 0) {
-					console.log('inside else statement of showinput:', this.state.playlistCode);
-					this.setState({ showAuth: false });
-					this.setState({ showPlaylist: true });
-				}
+			showInput: function showInput() {
+
+					// retrieve token from local storage
+					var jwt = window.localStorage.getItem('token');
+					console.log("inside showInput:", this.state.playlistCode);
+					// if token exists, take user to playlist
+					if (jwt) {
+							// change trigger state
+							this.setState({ showAuth: false });
+							this.setState({ showPlaylist: true });
+							// save context in variable
+							var self = this;
+
+							// authenticate token
+							helpers.authHost(jwt).then(function (data) {
+									console.log('AUTH SUCCESSFUL ON RETURN:', data);
+									self.setState({ playlistCode: data.auth.playlistCode });
+							})['catch'](function (err) {
+									console.log(err);
+							});
+					} else {
+							console.log('NO TOKEN FOUND');
+
+							// if no token but playlist code exists, take user to playlist
+							if (this.state.playlistCode.length > 0) {
+									console.log('inside else statement of showinput:', this.state.playlistCode);
+									this.setState({ showAuth: false });
+									this.setState({ showPlaylist: true });
+							}
+					}
+			},
+
+			updateCode: function updateCode(newCode) {
+
+					console.log('before stateChange:', newCode);
+					// change playlist code and re-render main component
+					this.setState({ playlistCode: newCode }, this.showInput);
+					console.log('in updateCode:', this.state.playlistCode);
+			},
+
+			componentWillMount: function componentWillMount() {
+					this.showInput();
+			},
+
+			render: function render() {
+					return React.createElement(
+							'div',
+							null,
+							React.createElement(
+									'div',
+									null,
+									this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
+							),
+							React.createElement(
+									'div',
+									null,
+									this.state.showPlaylist ? React.createElement(Playlist, { playlistCode: this.state.playlistCode }) : null
+							),
+							React.createElement(
+									'h1',
+									null,
+									this.state.playlistCode
+							)
+					);
 			}
-		},
-
-		updateCode: function updateCode(newCode) {
-			console.log('before stateChange:', newCode);
-			this.setState({ playlistCode: newCode }, this.showInput);
-			console.log('in updateCode:', this.state.playlistCode);
-		},
-
-		componentWillMount: function componentWillMount() {
-			this.showInput();
-		},
-
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'div',
-					null,
-					this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
-				),
-				React.createElement(
-					'div',
-					null,
-					this.state.showPlaylist ? React.createElement(Playlist, { playlistCode: this.state.playlistCode }) : null
-				),
-				React.createElement(
-					'h1',
-					null,
-					this.state.playlistCode
-				)
-			);
-		}
-
 	});
 
 	React.render(React.createElement(Main, null), document.getElementById('app'));
@@ -20551,6 +20556,7 @@
 	  },
 
 	  showInput: function showInput() {
+
 	    // retrieve token from local storage
 	    var jwt = window.localStorage.getItem('token');
 
@@ -20585,7 +20591,6 @@
 	      )
 	    );
 	  }
-
 	});
 
 	module.exports = Host;
@@ -23740,17 +23745,12 @@
 	    // store host's first name in variable
 	    var firstname = this.refs.firstname.getDOMNode().value;
 
-	    // var self = this;
-
+	    // create playlist and set new data node in firebase
+	    // returns new playlist code
 	    var playlistCode = helpers.createPlaylist(firstname);
-	    console.log(playlistCode);
-	    // .then(function(authData) {
-	    //   console.log("AUTH SUCCESSFUL ON CREATION", authData);
+
+	    // update playlistCode state in Main
 	    this.props.updateCode(playlistCode);
-	    // })
-	    // .catch(function(err) {
-	    //   console.log("AUTH FAILED", error);
-	    // });
 	  },
 
 	  render: function render() {
@@ -23786,20 +23786,20 @@
 
 	module.exports = {
 
-		//OLD HOST
+		// OLD HOST
 		authHost: function authHost(token) {
 			console.log('SUBMITTED HOST TOKEN:', token);
-			//AUTHENTICATE WITH TOKEN
+			// AUTHENTICATE WITH TOKEN
 			return fpRef.authWithCustomToken(token);
 		},
 
-		//NEW HOST
+		// NEW HOST
 		createPlaylist: function createPlaylist(firstName) {
-			//create PLAYLIST CODE
+			// create PLAYLIST CODE
 			var playlistCode = firstName + Math.floor(Math.random() * 100);
 			console.log("PLAYLIST CODE CREATED:", playlistCode);
 
-			//create TOKEN
+			// create TOKEN
 			var token = tokenGenerator.createToken({ "uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true });
 			console.log('HOST TOKEN CREATED:', token);
 
@@ -23812,32 +23812,11 @@
 			};
 
 			var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
+
 			// set the refactored data in database
 			playlistRef.set(refactored);
 
-			// var fpPlaylistRef = new Fireproof(playlistRef);
-
-			// authenticate with new TOKEN to take user to PLAYLIST page
-			// return fpPlaylistRef.authWithCustomToken(token);
-
 			return playlistCode;
-		},
-
-		//GUEST
-		authGuest: function authGuest(newCode) {
-			// store PLAYLIST CODE in variable
-			var playlistCode = newCode;
-			console.log('SUBMITTED PLAYLIST CODE:', playlistCode);
-
-			// authenticate annonymously
-			ref.authAnonymously(function (error, authData) {
-				if (error) {
-					console.log("AUTH FAILED:", error);
-				} else {
-					console.log('GUEST AUTH DATA:', authData);
-					window.localStorage.setItem('token', authData.token);
-				}
-			});
 		}
 	};
 
@@ -24276,7 +24255,7 @@
 	 * 
 	 */
 	/**
-	 * bluebird build version 2.10.1
+	 * bluebird build version 2.10.2
 	 * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, cancel, using, filter, any, each, timers
 	*/
 	!function(e){if(true)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Promise=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -28540,10 +28519,16 @@
 
 	var afterTimeout = function (promise, message) {
 	    if (!promise.isPending()) return;
-	    if (typeof message !== "string") {
-	        message = "operation timed out";
+	    
+	    var err;
+	    if(!util.isPrimitive(message) && (message instanceof Error)) {
+	        err = message;
+	    } else {
+	        if (typeof message !== "string") {
+	            message = "operation timed out";
+	        }
+	        err = new TimeoutError(message);
 	    }
-	    var err = new TimeoutError(message);
 	    util.markAsOriginatingFromRejection(err);
 	    promise._attachExtraTrace(err);
 	    promise._cancel(err);
@@ -31545,7 +31530,6 @@
 	    e.preventDefault();
 	    var newCode = this.refs.playlistCode.getDOMNode().value;
 	    console.log('GUEST CODE:', newCode);
-	    // helpers.authGuest(newCode);
 	    this.props.updateCode(newCode);
 	  },
 
@@ -31565,7 +31549,6 @@
 	      )
 	    );
 	  }
-
 	});
 
 	module.exports = Guest;
@@ -31585,11 +31568,10 @@
 			return React.createElement(
 				'div',
 				null,
-				this.props.playlistCode,
-				'Helloooooo'
+				'Playlist Here : ',
+				this.props.playlistCode
 			);
 		}
-
 	});
 
 	module.exports = Playlist;

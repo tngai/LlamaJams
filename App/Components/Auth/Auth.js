@@ -2,8 +2,8 @@ var React = require('react');
 var Host = require('./host/host');
 var Guest = require('./guest');
 
-
 var Auth = React.createClass({
+
   render: function() {
     return (
       <div>
@@ -13,6 +13,5 @@ var Auth = React.createClass({
     );
   }
 });
-
 
 module.exports = Auth;

@@ -1,18 +1,11 @@
 var express = require('express');
 var app = express();
-var route = require('./route.js')
+var bodyParser = require('body-parser');
 
-
-route(app, express);
-
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/../../public'));
+app.use('/bower_components', express.static(__dirname + '/../../bower_components'));
 
 app.listen(5000, function() {
 	console.log('Listening to 5000...');
 })
-
-//redirect users to playlist.html
-//replace /success with playlist.html
-//push songs into firebase/playlistCode/playlist
-
-
-

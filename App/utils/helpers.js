@@ -15,20 +15,20 @@ var tokenGenerator = new FirebaseTokenGenerator('VgF8MXKNUfEnzygDAERDZdiLPUS86W4
 
 module.exports = {
 
-	//OLD HOST
+	// OLD HOST
 	authHost: function(token) {
 		console.log('SUBMITTED HOST TOKEN:', token);
-		//AUTHENTICATE WITH TOKEN
+		// AUTHENTICATE WITH TOKEN
 		return fpRef.authWithCustomToken(token);
 	},
 
-	//NEW HOST
+	// NEW HOST
 	createPlaylist: function(firstName) {
-		//create PLAYLIST CODE
+		// create PLAYLIST CODE
 		var playlistCode = firstName + Math.floor(Math.random()*100);
 		console.log("PLAYLIST CODE CREATED:", playlistCode);
 
-		//create TOKEN
+		// create TOKEN
 		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true});
 		console.log('HOST TOKEN CREATED:', token);
 
@@ -46,24 +46,7 @@ module.exports = {
 		playlistRef.set(refactored);
 
 		return playlistCode;
-	},
-
-	// //GUEST
-	// authGuest: function(newCode) {
-	// 	// store PLAYLIST CODE in variable
-	// 	var playlistCode = newCode;
-	// 	console.log('SUBMITTED PLAYLIST CODE:', playlistCode);
-
-	// 	// authenticate annonymously
-	// 	ref.authAnonymously(function(error, authData) {
-	// 		if (error) {
-	// 			console.log("AUTH FAILED:", error);
-	// 		} else {
-	// 			console.log('GUEST AUTH DATA:', authData);
-	// 			window.localStorage.setItem('token', authData.token);
-	// 		}
-	// 	});
-	// }
+	}
 }
 
 

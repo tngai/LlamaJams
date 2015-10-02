@@ -2,6 +2,7 @@ var React = require('react');
 var helpers = require('../../../utils/helpers');
 
 var InputBar = React.createClass({
+
   createData: function(e) {
     e.preventDefault();
     // store host's first name in variable
