@@ -4,7 +4,9 @@ var Playlist = require('./playlist/playlist');
 var helpers = require('../utils/helpers');
 
 var Main = React.createClass({
+
 	getInitialState: function() {
+
 	  return {
 	    showAuth: true,
 	    showPlaylist: false,
@@ -13,6 +15,7 @@ var Main = React.createClass({
 	},
 
 	showInput: function(){
+
 	  // retrieve token from local storage
 	  var jwt = window.localStorage.getItem('token');
 	  console.log("inside showInput:", this.state.playlistCode);
@@ -36,6 +39,7 @@ var Main = React.createClass({
 
 	  } else {
 	    console.log('NO TOKEN FOUND');
+
 	    // if no token but playlist code exists, take user to playlist
 	    if (this.state.playlistCode.length > 0) {
 	    	console.log('inside else statement of showinput:', this.state.playlistCode);
@@ -46,6 +50,7 @@ var Main = React.createClass({
 	},
 
 	updateCode: function(newCode) {
+
 		console.log('before stateChange:', newCode);
 		// change playlist code and re-render main component
 		this.setState({playlistCode: newCode}, this.showInput);
@@ -72,12 +77,6 @@ var Main = React.createClass({
       </div>
     )
   }
-	
-
 });
 
 React.render(<Main />, document.getElementById('app'));
-
-
-
-

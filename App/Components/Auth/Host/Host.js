@@ -5,6 +5,7 @@ var HostButton = require('./hostbutton');
 var InputBar = require('./inputbar');
 
 var Host = React.createClass({
+
   getInitialState: function() {
     return {
       showButton: true,
@@ -12,7 +13,8 @@ var Host = React.createClass({
     };
   },
 
-  showInput: function(){
+  showInput: function() {
+
     // retrieve token from local storage
     var jwt = window.localStorage.getItem('token');
 
@@ -40,18 +42,6 @@ var Host = React.createClass({
       </div>
     );
   }
-
 });
 
-
-
-
 module.exports = Host;
-
-
-
-
-
-
-
-
