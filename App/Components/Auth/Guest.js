@@ -2,11 +2,11 @@ var React = require('react');
 var helpers = require('../../utils/helpers');
 
 var Guest = React.createClass({
+
 	submitHandler: function(e) {
-		e.preventDefault();
+    e.preventDefault();
 		var newCode = this.refs.playlistCode.getDOMNode().value;
 		console.log('GUEST CODE:', newCode);
-		// helpers.authGuest(newCode);
 		this.props.updateCode(newCode);
 	},
 
@@ -20,7 +20,6 @@ var Guest = React.createClass({
       </div>
     );
   }
-
 });
 
 module.exports = Guest;

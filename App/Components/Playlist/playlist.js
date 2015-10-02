@@ -4,10 +4,9 @@ var Playlist = React.createClass({
 
 	render: function() {
 		return (
-			<div>{this.props.playlistCode}Helloooooo</div>
+			<div>Playlist Here : {this.props.playlistCode}</div>
 		);
 	}
-
 });
 
 module.exports = Playlist;
