@@ -52,85 +52,80 @@
 	var helpers = __webpack_require__(200);
 
 	var Main = React.createClass({
-			displayName: 'Main',
+	  displayName: 'Main',
 
-			getInitialState: function getInitialState() {
+	  getInitialState: function getInitialState() {
 
-					return {
-							showAuth: true,
-							showPlaylist: false,
-							playlistCode: ''
-					};
-			},
+	    return {
+	      showAuth: true,
+	      showPlaylist: false,
+	      playlistCode: ''
+	    };
+	  },
 
-			showInput: function showInput() {
+	  showInput: function showInput() {
 
-					// retrieve token from local storage
-					var jwt = window.localStorage.getItem('token');
-					console.log("inside showInput:", this.state.playlistCode);
-					// if token exists, take user to playlist
-					if (jwt) {
-							// change trigger state
-							this.setState({ showAuth: false });
-							this.setState({ showPlaylist: true });
-							// save context in variable
-							var self = this;
+	    // retrieve token from local storage
+	    var jwt = window.localStorage.getItem('token');
+	    console.log("inside showInput:", this.state.playlistCode);
+	    // if token exists, take user to playlist
+	    if (jwt) {
+	      // change trigger state
+	      this.setState({ showAuth: false });
+	      this.setState({ showPlaylist: true });
+	      // save context in variable
+	      var self = this;
 
-							// authenticate token
-							helpers.authHost(jwt).then(function (data) {
-									console.log('AUTH SUCCESSFUL ON RETURN:', data);
-									self.setState({ playlistCode: data.auth.playlistCode });
-							})['catch'](function (err) {
-									console.log(err);
-							});
-					} else {
-							console.log('NO TOKEN FOUND');
+	      // authenticate token
+	      helpers.authHost(jwt).then(function (data) {
+	        console.log('AUTH SUCCESSFUL ON RETURN:', data);
+	        self.setState({ playlistCode: data.auth.playlistCode });
+	      })['catch'](function (err) {
+	        console.log(err);
+	      });
+	    } else {
+	      console.log('NO TOKEN FOUND');
 
-							// if no token but playlist code exists, take user to playlist
-							if (this.state.playlistCode.length > 0) {
-									console.log('inside else statement of showinput:', this.state.playlistCode);
-									this.setState({ showAuth: false });
-									this.setState({ showPlaylist: true });
-							}
-					}
-			},
+	      // if no token but playlist code exists, take user to playlist
+	      if (this.state.playlistCode.length > 0) {
+	        console.log('inside else statement of showinput:', this.state.playlistCode);
+	        this.setState({ showAuth: false });
+	        this.setState({ showPlaylist: true });
+	      }
+	    }
+	  },
 
-			updateCode: function updateCode(newCode) {
+	  updateCode: function updateCode(newCode) {
+	    console.log('before stateChange:', newCode);
+	    // change playlist code and re-render main component
+	    this.setState({ playlistCode: newCode }, this.showInput);
+	    console.log('in updateCode:', this.state.playlistCode);
+	  },
 
-					console.log('before stateChange:', newCode);
-					// change playlist code and re-render main component
-					this.setState({ playlistCode: newCode }, this.showInput);
-					console.log('in updateCode:', this.state.playlistCode);
-			},
+	  componentWillMount: function componentWillMount() {
+	    this.showInput();
+	  },
 
-			componentWillMount: function componentWillMount() {
-					this.showInput();
-			},
-
-			render: function render() {
-					return React.createElement(
-							'div',
-							null,
-							React.createElement(
-									'div',
-									null,
-									this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
-							),
-							React.createElement(
-									'div',
-									null,
-									this.state.showPlaylist ? React.createElement(Playlist, { playlistCode: this.state.playlistCode }) : null
-							),
-							React.createElement(
-									'h1',
-									null,
-									this.state.playlistCode
-							)
-					);
-			}
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        null,
+	        this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
+	      ),
+	      React.createElement(
+	        'div',
+	        null,
+	        this.state.showPlaylist ? React.createElement(Playlist, { playlistCode: this.state.playlistCode }) : null
+	      )
+	    );
+	  }
 	});
 
 	React.render(React.createElement(Main, null), document.getElementById('app'));
+	'';
 
 /***/ },
 /* 1 */
@@ -23786,38 +23781,38 @@
 
 	module.exports = {
 
-		// OLD HOST
-		authHost: function authHost(token) {
-			console.log('SUBMITTED HOST TOKEN:', token);
-			// AUTHENTICATE WITH TOKEN
-			return fpRef.authWithCustomToken(token);
-		},
+	  // OLD HOST
+	  authHost: function authHost(token) {
+	    console.log('SUBMITTED HOST TOKEN:', token);
+	    // AUTHENTICATE WITH TOKEN
+	    return fpRef.authWithCustomToken(token);
+	  },
 
-		// NEW HOST
-		createPlaylist: function createPlaylist(firstName) {
-			// create PLAYLIST CODE
-			var playlistCode = firstName + Math.floor(Math.random() * 100);
-			console.log("PLAYLIST CODE CREATED:", playlistCode);
+	  // NEW HOST
+	  createPlaylist: function createPlaylist(firstName) {
+	    // create PLAYLIST CODE
+	    var playlistCode = firstName + Math.floor(Math.random() * 100);
+	    console.log("PLAYLIST CODE CREATED:", playlistCode);
 
-			// create TOKEN
-			var token = tokenGenerator.createToken({ "uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true });
-			console.log('HOST TOKEN CREATED:', token);
+	    // create TOKEN
+	    var token = tokenGenerator.createToken({ "uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true });
+	    console.log('HOST TOKEN CREATED:', token);
 
-			window.localStorage.setItem('token', token);
+	    window.localStorage.setItem('token', token);
 
-			var refactored = {
-				token: token,
-				playlist: 'playlist',
-				playlistCode: playlistCode
-			};
+	    var refactored = {
+	      token: token,
+	      playlist: 'playlist',
+	      playlistCode: playlistCode
+	    };
 
-			var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
+	    var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
 
-			// set the refactored data in database
-			playlistRef.set(refactored);
+	    // set the refactored data in database
+	    playlistRef.set(refactored);
 
-			return playlistCode;
-		}
+	    return playlistCode;
+	  }
 	};
 
 /***/ },
@@ -24255,7 +24250,7 @@
 	 * 
 	 */
 	/**
-	 * bluebird build version 2.10.2
+	 * bluebird build version 2.10.1
 	 * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, cancel, using, filter, any, each, timers
 	*/
 	!function(e){if(true)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Promise=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -28519,16 +28514,10 @@
 
 	var afterTimeout = function (promise, message) {
 	    if (!promise.isPending()) return;
-	    
-	    var err;
-	    if(!util.isPrimitive(message) && (message instanceof Error)) {
-	        err = message;
-	    } else {
-	        if (typeof message !== "string") {
-	            message = "operation timed out";
-	        }
-	        err = new TimeoutError(message);
+	    if (typeof message !== "string") {
+	        message = "operation timed out";
 	    }
+	    var err = new TimeoutError(message);
 	    util.markAsOriginatingFromRejection(err);
 	    promise._attachExtraTrace(err);
 	    promise._cancel(err);
@@ -31560,6 +31549,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var SongEntry = __webpack_require__(208);
 
 	var Playlist = React.createClass({
 		displayName: 'Playlist',
@@ -31567,14 +31557,410 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				null,
-				'Playlist Here : ',
+				{ className: 'bigger-container' },
+				React.createElement(SongEntry, this.props),
 				this.props.playlistCode
 			);
 		}
 	});
 
 	module.exports = Playlist;
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Search = __webpack_require__(209);
+	var Song = __webpack_require__(210);
+	var Player = __webpack_require__(211);
+	var Firebase = __webpack_require__(201);
+
+	var SongEntry = React.createClass({
+	  displayName: 'SongEntry',
+
+	  loadSongsFromServer: function loadSongsFromServer() {
+	    this.firebaseRef = new Firebase('https://llamajams.firebaseio.com/Irving101');
+
+	    this.firebaseRef.on('child_added', (function (snapshot) {
+
+	      var eachSong = snapshot.val();
+	      var eachTitle = eachSong.title;
+	      var separateTitleandArtist = eachTitle.indexOf('-');
+
+	      var artist = eachTitle.slice(0, separateTitleandArtist);
+	      var song = eachTitle.slice(separateTitleandArtist + 2, eachTitle.length);
+
+	      this.items.push({
+	        artist: artist,
+	        song: song,
+	        songUrl: eachSong.songUrl
+	      });
+
+	      this.setState({ songs: this.items });
+	    }).bind(this));
+	  },
+
+	  rerenderPlaylist: function rerenderPlaylist() {
+	    this.firebaseRef.on('child_removed', (function (snapshot) {
+	      console.log('inside rerenderPlaylist:', snapshot.val());
+	      var removeSongbyUrl = snapshot.val().songUrl;
+
+	      var isFound = false;
+	      for (var i = 0; i < this.state.songs.length; i++) {
+	        if (this.state.songs[i].songUrl === removeSongbyUrl && !isFound) {
+	          this.state.songs.splice(i, 1);
+	          isFound = true;
+	        }
+	      }
+
+	      this.setState({
+	        songs: this.state.songs
+	      });
+
+	      this.forceUpdate();
+	    }).bind(this));
+	  },
+
+	  getInitialState: function getInitialState() {
+	    this.items = [];
+	    return {
+	      songs: [],
+	      active: false,
+	      input: '',
+	      searchResults: [],
+	      toggle: false
+	    };
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    this.loadSongsFromServer();
+	  },
+
+	  handleSearchInput: function handleSearchInput(inputSearch) {
+	    this.setState({
+	      input: inputSearch
+	    });
+	    this.toggleBox();
+	    this.soundCloudCall(inputSearch);
+	  },
+
+	  toggleBox: function toggleBox() {
+	    this.setState({
+	      active: !this.state.active
+	    });
+	  },
+
+	  pushSong: function pushSong(e) {
+	    var selectedSong = e.target.childNodes[0].data;
+	    var allResults = this.state.searchResults;
+
+	    for (var i = 0; i < allResults.length; i++) {
+	      if (allResults[i].title === selectedSong) {
+	        this.firebaseRef.push({
+	          title: allResults[i].title,
+	          songUrl: allResults[i].songUrl
+	        });
+	      }
+	    }
+
+	    this.toggleBox();
+	    e.preventDefault();
+	  },
+
+	  playPause: function playPause() {
+	    var fbref = this.firebaseRef;
+	    var songs = this.state.songs;
+	    var player = this;
+
+	    var myOptions = {
+	      onload: function onload() {
+	        var duration = this.duration;
+	        console.log('loaded');
+	      },
+	      onfinish: function onfinish() {
+	        //delete first song from firebase
+	        var children = [];
+	        fbref.once('value', function (snapshot) {
+	          snapshot.forEach(function (childSnapshot) {
+	            children.push(childSnapshot.key().toString());
+	          });
+	        });
+	        fbref.child(children[0]).remove();
+	        //shift the top song off the playlist array
+
+	        // play firstSong
+	        SC.stream(player.state.songs[0].songUrl, myOptions, function (song) {
+	          song.play();
+	        });
+	      },
+	      onresume: function onresume() {
+	        console.log("resumed");
+	      },
+	      onstop: function onstop() {
+	        console.log("Stopped");
+	      },
+	      onpause: function onpause() {
+	        console.log('Paused');
+	      },
+	      whileplaying: function whileplaying() {
+	        console.log(this.position);
+	      }
+	    };
+
+	    if (!window.soundManager) {
+	      SC.stream(player.state.songs[0].songUrl, myOptions, function (song) {
+	        song.play();
+	      });
+	    } else {
+	      if (this.state.toggle) {
+	        this.setState({
+	          toggle: false
+	        });
+	        window.soundManager.resumeAll();
+	        console.log('in resumeAll');
+	      } else {
+	        this.setState({
+	          toggle: true
+	        });
+	        window.soundManager.pauseAll();
+	        console.log('paudAll');
+	      }
+	    }
+	  },
+
+	  soundCloudCall: function soundCloudCall(inputSearch) {
+	    if (this.state.searchResults.length > 0) {
+	      this.setState({ searchResults: this.state.searchResults.slice(0) });
+	      this.forceUpdate();
+	    }
+
+	    SC.get('http://api.soundcloud.com/tracks/', { q: inputSearch, limit: 7 }, (function (tracks) {
+	      // Display each song title and an option to add '+' to host playlist
+	      var obj = [];
+
+	      for (var i = 0; i < tracks.length; i++) {
+	        var eachSong = tracks[i].title;
+	        var eachUrl = tracks[i].uri;
+
+	        obj.push({
+	          title: eachSong,
+	          songUrl: eachUrl
+	        });
+
+	        console.log(obj);
+	      }
+
+	      this.setState({
+	        searchResults: obj
+	      });
+	    }).bind(this));
+	  },
+
+	  render: function render() {
+	    var songStructure = this.state.songs.map(function (song, i) {
+	      return React.createElement(Song, { data: song, key: i });
+	    });
+
+	    var songResults = this.state.searchResults.map(function (song, i) {
+	      var songUri = song.songUrl;
+	      return React.createElement(
+	        'a',
+	        { className: 'song-results', href: '#', ref: 'eachSoundcloud', value: songUri },
+	        song.title,
+	        React.createElement(
+	          'div',
+	          { className: 'plus' },
+	          '+'
+	        )
+	      );
+	    });
+
+	    if (this.state.active) {
+	      var display = {
+	        display: 'block'
+	      };
+	    } else {
+	      var display = {
+	        display: 'none'
+	      };
+	    }
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.props.playlistCode
+	      ),
+	      React.createElement(Player, { togglePlayer: this.playPause }),
+	      React.createElement(Search, { checkClick: this.handleSearchInput }),
+	      React.createElement(
+	        'div',
+	        { className: 'soundcloud-results', style: display },
+	        React.createElement(
+	          'div',
+	          { className: 'song-results', onClick: this.pushSong },
+	          songResults
+	        )
+	      ),
+	      songStructure
+	    );
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.rerenderPlaylist();
+	  }
+	});
+
+	module.exports = SongEntry;
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Search = React.createClass({
+	  displayName: 'Search',
+
+	  //div overlay needs to exist somewhere
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var inputVal = React.findDOMNode(this.refs.input).value;
+	    this.props.checkClick(inputVal);
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'searchbar-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'searchbar' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement('input', { type: 'text', onSumbit: this.props.checkClick, ref: 'input' })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Search;
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Song = React.createClass({
+	  displayName: 'Song',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'container-playlist' },
+	      React.createElement(
+	        'div',
+	        { className: 'close-container' },
+	        React.createElement('img', { src: './assets/img/button-x.png', width: '15', height: '15' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'song-view' },
+	        this.props.data.song
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'artist-view' },
+	        this.props.data.artist
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Song;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Player = React.createClass({
+	  displayName: 'Player',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      play: true,
+	      pause: false
+	    };
+	  },
+
+	  playShouldpause: function playShouldpause() {
+	    this.setState({
+	      play: !this.state.play,
+	      pause: !this.state.pause
+	    });
+	    this.props.togglePlayer(this.state.play);
+	  },
+
+	  render: function render() {
+	    if (this.state.play) {
+	      var displayPlay = {
+	        display: 'block'
+	      };
+	      var displayPause = {
+	        display: 'none'
+	      };
+	    } else {
+	      var displayPlay = {
+	        display: 'none'
+	      };
+	      var displayPause = {
+	        display: 'block'
+	      };
+	    }
+
+	    return React.createElement(
+	      'div',
+	      { className: 'player-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'close-container' },
+	        React.createElement('img', { src: 'assets/img/button-x.png', width: '15', height: '15' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'play-pause' },
+	        React.createElement(
+	          'div',
+	          { className: 'button-play' },
+	          React.createElement('img', { src: 'assets/img/button-play.png', width: '50', height: '50', ref: 'play', onClick: this.playShouldpause, style: displayPlay })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'button-pause' },
+	          React.createElement('img', { src: 'assets/img/button-pause.png', width: '50', height: '50', ref: 'pause', onClick: this.playShouldpause, style: displayPause })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Player;
 
 /***/ }
 /******/ ]);

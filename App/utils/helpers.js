@@ -2,7 +2,7 @@ var Firebase = require('firebase');
 var FirebaseTokenGenerator = require('firebase-token-generator');
 var Promise = require('bluebird');
 var Fireproof = require('fireproof');
-		Fireproof.bless(Promise);
+    Fireproof.bless(Promise);
 
 // create reference to database
 var ref = new Firebase('https://llamajamsauth.firebaseio.com/')
@@ -14,39 +14,47 @@ var tokenGenerator = new FirebaseTokenGenerator('VgF8MXKNUfEnzygDAERDZdiLPUS86W4
 
 
 module.exports = {
+ 
+  // OLD HOST
+  authHost: function(token) {
+    console.log('SUBMITTED HOST TOKEN:', token);
+    // AUTHENTICATE WITH TOKEN
+    return fpRef.authWithCustomToken(token);
+  },
 
-	// OLD HOST
-	authHost: function(token) {
-		console.log('SUBMITTED HOST TOKEN:', token);
-		// AUTHENTICATE WITH TOKEN
-		return fpRef.authWithCustomToken(token);
-	},
+  // NEW HOST
+  createPlaylist: function(firstName) {
+    // create PLAYLIST CODE
+    var playlistCode = firstName + Math.floor(Math.random()*100);
+    console.log("PLAYLIST CODE CREATED:", playlistCode);
 
-	// NEW HOST
-	createPlaylist: function(firstName) {
-		// create PLAYLIST CODE
-		var playlistCode = firstName + Math.floor(Math.random()*100);
-		console.log("PLAYLIST CODE CREATED:", playlistCode);
+    // create TOKEN
 
-		// create TOKEN
 		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true});
 		console.log('HOST TOKEN CREATED:', token);
 
 		window.localStorage.setItem('token', token);
 
 		var refactored = {
-					token: token,
-					playlist: 'playlist',
-					playlistCode: playlistCode
+			token: token,
+			playlist: 'playlist',
+			playlistCode: playlistCode
 		};
-
-		var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
 		
-		// set the refactored data in database
-		playlistRef.set(refactored);
+		var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
 
 		return playlistCode;
 	}
-}
 
+    // set the refactored data in database
+    playlistRef.set(refactored);
+
+    return playlistCode;
+	},
+
+  checkCode: function(code) {
+    console.log('inside checkcode:', code)
+    return fpRef.once('value');
+  }
+}
 

@@ -68,6 +68,11 @@ body {
   padding-top: 4px;
 }
 
+.artist-view{
+  padding-top: 4px;
+  font-size: 14px;
+}
+
 /*search bar */
 
 .searchbar-container {
@@ -94,10 +99,8 @@ body {
   border-color: #fff;
   border-width: 1px;
   border-style: solid;
-  padding-left: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
 }
+
 /*close box*/
 
 .close-container {

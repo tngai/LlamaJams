@@ -1,14 +1,14 @@
 var React = require('react');
 
 var Player = React.createClass({
-  getInitialState: function() {
+   getInitialState: function() {
     return {
       play: true,
       pause: false
     }
   },
 
-  playShouldpause: function() {
+   playShouldpause: function() {
     this.setState({
       play: !this.state.play,
       pause: !this.state.pause
@@ -16,7 +16,7 @@ var Player = React.createClass({
     this.props.togglePlayer(this.state.play)
   },
 
-  render: function() {
+   render: function() {
     if(this.state.play) {
       var displayPlay = {
         display: 'block'
@@ -33,7 +33,7 @@ var Player = React.createClass({
       }
     }
 
-    return (
+     return (
       <div className='player-container'>
         <div className='play-pause'>
           <div className='button-play'>
@@ -44,8 +44,8 @@ var Player = React.createClass({
           </div>
         </div>
       </div>
-    )
-  }
+      )
+    }
 });
 
 module.exports = Player;
