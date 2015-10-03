@@ -35,9 +35,6 @@ var Player = React.createClass({
 
     return (
       <div className='player-container'>
-        <div className='close-container'>
-          <img src='assets/img/button-x.png' width='15' height='15'/>
-        </div>
         <div className='play-pause'>
           <div className='button-play'>
             <img src='assets/img/button-play.png' width='50' height='50' ref='play' onClick={this.playShouldpause} style={displayPlay}/>
