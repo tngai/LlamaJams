@@ -1,15 +1,15 @@
 var React = require('react');
-var SongEntry = require('./songEntry');
+var SongEntry = require('./SongEntry');
 
 var Playlist = React.createClass({
 
-  render: function() {
-    return (
-      <div className='bigger-container'>
+	render: function() {
+		return (
+			<div className='bigger-container'>
       <SongEntry {...this.props}/>
       </div>
-    );
-  }
+		);
+	}
 });
 
 module.exports = Playlist;

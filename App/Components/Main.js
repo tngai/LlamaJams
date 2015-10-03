@@ -10,10 +10,11 @@ var Main = React.createClass({
     return {
       showAuth: true,
       showPlaylist: false,
-      playlistCode: ''
-    };
-  },
-
+      playlistCode: '',
+      check: false,
+      hasToken: false
+	  };
+	},
   showInput: function(){
 
     // retrieve token from local storage
@@ -22,6 +23,7 @@ var Main = React.createClass({
     // if token exists, take user to playlist
     if (jwt) {
       // change trigger state
+      this.setState({hasToken: true});
       this.setState({showAuth: false});
       this.setState({showPlaylist: true});
       // save context in variable
@@ -39,13 +41,21 @@ var Main = React.createClass({
 
     } else {
       console.log('NO TOKEN FOUND');
-
-      // if no token but playlist code exists, take user to playlist
-      if (this.state.playlistCode.length > 0) {
-        console.log('inside else statement of showinput:', this.state.playlistCode);
-        this.setState({showAuth: false});
-        this.setState({showPlaylist: true});
-      }
+      var self = this;
+      var playlistCode = this.state.playlistCode;
+      helpers.checkCode(playlistCode)
+      .then(function(snapshot) {
+        for (var code in snapshot.val()) {
+          if (code === self.state.playlistCode) {
+          console.log('inside else statement of showinput:');
+          self.setState({check: false, showAuth: false, showPlaylist: true});
+          } else {
+            if (playlistCode.length > 1) {
+              self.setState({check: true});
+            }
+          }
+        }
+      });
     }
   },
 
@@ -53,7 +63,6 @@ var Main = React.createClass({
     console.log('before stateChange:', newCode);
     // change playlist code and re-render main component
     this.setState({playlistCode: newCode}, function() {
-      console.log('here');
       this.showInput();
     });
     console.log('in updateCode:', this.state.playlistCode);
@@ -71,10 +80,12 @@ var Main = React.createClass({
         </div>
 
         <div>
-          {this.state.showPlaylist ? <Playlist playlistCode={this.state.playlistCode}/> : null}
+          {this.state.showPlaylist ? <Playlist hasToken={this.state.hasToken} playlistCode={this.state.playlistCode}/> : null}
         </div>
 
-
+        <div>
+          {this.state.check ? <h1>Playlist Not Found</h1> : null}
+        </div>        
 
       </div>
     )

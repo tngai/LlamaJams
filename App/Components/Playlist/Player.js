@@ -1,22 +1,20 @@
 var React = require('react');
 
 var Player = React.createClass({
-  getInitialState: function() {
+   getInitialState: function() {
     return {
       play: true,
       pause: false
     }
-  },
-
-  playShouldpause: function() {
+   },
+   playShouldpause: function() {
     this.setState({
       play: !this.state.play,
       pause: !this.state.pause
     })
     this.props.togglePlayer(this.state.play)
-  },
-
-  render: function() {
+   },
+   render: function() {
     if(this.state.play) {
       var displayPlay = {
         display: 'block'
@@ -33,8 +31,11 @@ var Player = React.createClass({
       }
     }
 
-    return (
+     return (
       <div className='player-container'>
+        <div className='close-container'>
+          <img src='assets/img/button-x.png' width='15' height='15'/>
+        </div>
         <div className='play-pause'>
           <div className='button-play'>
             <img src='assets/img/button-play.png' width='50' height='50' ref='play' onClick={this.playShouldpause} style={displayPlay}/>
@@ -44,8 +45,8 @@ var Player = React.createClass({
           </div>
         </div>
       </div>
-    )
-  }
+     )
+   }
 });
 
 module.exports = Player;
