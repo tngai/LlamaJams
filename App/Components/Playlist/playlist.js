@@ -1,5 +1,5 @@
 var React = require('react');
-var SongEntry = require('./songEntry');
+var SongEntry = require('./SongEntry');
 
 var Playlist = React.createClass({
 
@@ -10,6 +10,5 @@ var Playlist = React.createClass({
       </div>
     );
   }
-});
 
 module.exports = Playlist;

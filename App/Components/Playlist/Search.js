@@ -6,7 +6,7 @@ var Search = React.createClass({
     var inputVal = React.findDOMNode(this.refs.input).value
     this.props.checkClick(inputVal)
   },
-  
+
   render: function() {
    return (
       <div className='searchbar-container'>

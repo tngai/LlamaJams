@@ -4,7 +4,6 @@ var Song = React.createClass({
   render: function() {
     return (
       <div className='container-playlist'>
-
         <div className='song-view'>
           {this.props.data.song}
         </div>
