@@ -10,7 +10,8 @@ var Main = React.createClass({
     return {
       showAuth: true,
       showPlaylist: false,
-      playlistCode: ''
+      playlistCode: '',
+      check: false
 	  };
 	},
 
@@ -39,20 +40,31 @@ var Main = React.createClass({
 
     } else {
       console.log('NO TOKEN FOUND');
-
-      // if no token but playlist code exists, take user to playlist
-      if (this.state.playlistCode.length > 0) {
-        console.log('inside else statement of showinput:', this.state.playlistCode);
-        this.setState({showAuth: false});
-        this.setState({showPlaylist: true});
-      }
+      var self = this;
+      var playlistCode = this.state.playlistCode;
+      helpers.checkCode(playlistCode)
+      .then(function(snapshot) {
+        for (var code in snapshot.val()) {
+          if (code === self.state.playlistCode) {
+          console.log('inside else statement of showinput:');
+          self.setState({showAuth: false});
+          self.setState({showPlaylist: true});
+          } else {
+            if (playlistCode.length > 1) {
+              self.setState({check: true});
+            }
+          }
+        }
+      });
     }
   },
 
   updateCode: function(newCode) {
     console.log('before stateChange:', newCode);
     // change playlist code and re-render main component
-    this.setState({playlistCode: newCode}, this.showInput);
+    this.setState({playlistCode: newCode}, function() {
+      this.showInput();
+    });
     console.log('in updateCode:', this.state.playlistCode);
   },
 
@@ -71,7 +83,9 @@ var Main = React.createClass({
           {this.state.showPlaylist ? <Playlist playlistCode={this.state.playlistCode}/> : null}
         </div>
 
-
+        <div>
+          {this.state.check ? <h1>Playlist Not Found</h1> : null}
+        </div>        
 
       </div>
     )

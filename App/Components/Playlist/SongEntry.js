@@ -7,8 +7,12 @@ var Firebase = require('firebase');
 
 var SongEntry = React.createClass({
 
-  loadSongsFromServer: function() {
-    this.firebaseRef = new Firebase('https://llamajams.firebaseio.com/Irving101');
+  loadSongsFromServer: function(receivedCode) {
+    
+    
+    this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
+    console.log(receivedCode);
+    console.log("loading songs");
 
     this.firebaseRef.on('child_added', function(snapshot) {
 
@@ -50,6 +54,12 @@ var SongEntry = React.createClass({
     }.bind(this));
   },
 
+  getDefaultProps: function() {
+    return {
+      playlistCode: ''
+    }
+  },
+
   getInitialState: function(){
     this.items = [];
     return {
@@ -57,14 +67,17 @@ var SongEntry = React.createClass({
       active: false,
       input: '',
       searchResults: [],
-      toggle: false
+      toggle: false,
+      receivedCode: false
     }
   },
 
-  componentWillMount: function() {
-    this.loadSongsFromServer();
+  componentWillReceiveProps: function(nextProps) {
+    console.log('receiving props:', nextProps.playlistCode);
+    var receivedCode = nextProps.playlistCode;
+    this.loadSongsFromServer(receivedCode);
+    this.rerenderPlaylist();
   },
-
 
   handleSearchInput: function(inputSearch) {
     this.setState({
@@ -192,6 +205,7 @@ var SongEntry = React.createClass({
   },
 
   render: function(){
+    console.log('rendered:', this.props.playlistCode);
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>
     })
@@ -213,7 +227,6 @@ var SongEntry = React.createClass({
 
     return (
       <div>
-      <h1>{this.props.playlistCode}</h1>
        <Player togglePlayer={this.playPause}/>
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
@@ -228,8 +241,13 @@ var SongEntry = React.createClass({
    },
 
   componentDidMount: function() {
-    this.rerenderPlaylist();
-   }
+    if (this.props.playlistCode.length > 0) {
+      this.loadSongsFromServer(this.props.playlistCode);
+      this.rerenderPlaylist();
+    }
+  }
+
+
   });
 
 module.exports = SongEntry;

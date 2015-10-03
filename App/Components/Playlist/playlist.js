@@ -7,7 +7,6 @@ var Playlist = React.createClass({
 		return (
 			<div className='bigger-container'>
       <SongEntry {...this.props}/>
-      {this.props.playlistCode}
       </div>
 		);
 	}

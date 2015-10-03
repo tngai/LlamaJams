@@ -46,7 +46,12 @@ module.exports = {
     playlistRef.set(refactored);
 
     return playlistCode;
-	}
+	},
+
+  checkCode: function(code) {
+    console.log('inside checkcode:', code)
+    return fpRef.once('value');
+  }
 }
 
 
