@@ -1,5 +1,4 @@
 var React = require('react');
-var Router = require('react-router');
 
 var HostButton = require('./hostbutton');
 var InputBar = require('./inputbar');

@@ -10,5 +10,6 @@ var Playlist = React.createClass({
       </div>
     );
   }
+});
 
 module.exports = Playlist;
