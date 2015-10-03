@@ -10,9 +10,6 @@ var Main = React.createClass({
     return {
       showAuth: true,
       showPlaylist: false,
-      playlistCode: ''
-    };
-  },
       playlistCode: '',
       check: false,
       hasToken: false
