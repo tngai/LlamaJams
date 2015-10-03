@@ -60,7 +60,8 @@
 	      showAuth: true,
 	      showPlaylist: false,
 	      playlistCode: '',
-	      check: false
+	      check: false,
+	      hasToken: false
 	    };
 	  },
 
@@ -72,6 +73,7 @@
 	    // if token exists, take user to playlist
 	    if (jwt) {
 	      // change trigger state
+	      this.setState({ hasToken: true });
 	      this.setState({ showAuth: false });
 	      this.setState({ showPlaylist: true });
 	      // save context in variable
@@ -92,8 +94,7 @@
 	        for (var code in snapshot.val()) {
 	          if (code === self.state.playlistCode) {
 	            console.log('inside else statement of showinput:');
-	            self.setState({ showAuth: false });
-	            self.setState({ showPlaylist: true });
+	            self.setState({ check: false, showAuth: false, showPlaylist: true });
 	          } else {
 	            if (playlistCode.length > 1) {
 	              self.setState({ check: true });
@@ -129,7 +130,7 @@
 	      React.createElement(
 	        'div',
 	        null,
-	        this.state.showPlaylist ? React.createElement(Playlist, { playlistCode: this.state.playlistCode }) : null
+	        this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
 	      ),
 	      React.createElement(
 	        'div',
@@ -31665,11 +31666,12 @@
 	      input: '',
 	      searchResults: [],
 	      toggle: false,
-	      receivedCode: false
+	      hasToken: false
 	    };
 	  },
 
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.state.hasToken = nextProps.hasToken;
 	    console.log('receiving props:', nextProps.playlistCode);
 	    var receivedCode = nextProps.playlistCode;
 	    this.loadSongsFromServer(receivedCode);
@@ -31829,7 +31831,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(Player, { togglePlayer: this.playPause }),
+	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause }) : null,
 	      React.createElement(Search, { checkClick: this.handleSearchInput }),
 	      React.createElement(
 	        'div',

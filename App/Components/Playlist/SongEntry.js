@@ -8,8 +8,8 @@ var Firebase = require('firebase');
 var SongEntry = React.createClass({
 
   loadSongsFromServer: function(receivedCode) {
-    
-    
+
+
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
     console.log(receivedCode);
     console.log("loading songs");
@@ -68,11 +68,12 @@ var SongEntry = React.createClass({
       input: '',
       searchResults: [],
       toggle: false,
-      receivedCode: false
+      hasToken: false
     }
   },
 
   componentWillReceiveProps: function(nextProps) {
+    this.state.hasToken = nextProps.hasToken;
     console.log('receiving props:', nextProps.playlistCode);
     var receivedCode = nextProps.playlistCode;
     this.loadSongsFromServer(receivedCode);
@@ -227,7 +228,7 @@ var SongEntry = React.createClass({
 
     return (
       <div>
-       <Player togglePlayer={this.playPause}/>
+       {this.state.hasToken ? <Player togglePlayer={this.playPause}/> : null}
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
           <div className='song-results' onClick={this.pushSong}>

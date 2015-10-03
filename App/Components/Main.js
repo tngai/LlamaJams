@@ -11,7 +11,8 @@ var Main = React.createClass({
       showAuth: true,
       showPlaylist: false,
       playlistCode: '',
-      check: false
+      check: false,
+      hasToken: false
 	  };
 	},
 
@@ -23,6 +24,7 @@ var Main = React.createClass({
     // if token exists, take user to playlist
     if (jwt) {
       // change trigger state
+      this.setState({hasToken: true});
       this.setState({showAuth: false});
       this.setState({showPlaylist: true});
       // save context in variable
@@ -47,8 +49,7 @@ var Main = React.createClass({
         for (var code in snapshot.val()) {
           if (code === self.state.playlistCode) {
           console.log('inside else statement of showinput:');
-          self.setState({showAuth: false});
-          self.setState({showPlaylist: true});
+          self.setState({check: false, showAuth: false, showPlaylist: true});
           } else {
             if (playlistCode.length > 1) {
               self.setState({check: true});
@@ -80,7 +81,7 @@ var Main = React.createClass({
         </div>
 
         <div>
-          {this.state.showPlaylist ? <Playlist playlistCode={this.state.playlistCode}/> : null}
+          {this.state.showPlaylist ? <Playlist hasToken={this.state.hasToken} playlistCode={this.state.playlistCode}/> : null}
         </div>
 
         <div>
