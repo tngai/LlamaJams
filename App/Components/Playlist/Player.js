@@ -1,7 +1,38 @@
 var React = require('react');
 
 var Player = React.createClass({
+  getInitialState: function() {
+    return {
+      play: true,
+      pause: false
+    }
+  },
+
+  playShouldpause: function() {
+    this.setState({
+      play: !this.state.play,
+      pause: !this.state.pause
+    })
+    this.props.togglePlayer(this.state.play)
+  },
+
   render: function() {
+    if(this.state.play) {
+      var displayPlay = {
+        display: 'block'
+      }
+      var displayPause = {
+        display: 'none'
+      }
+    } else {
+      var displayPlay = {
+        display: 'none'
+      }
+      var displayPause = {
+        display: 'block'
+      }
+    }
+
     return (
       <div className='player-container'>
         <div className='close-container'>
