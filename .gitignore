@@ -15,8 +15,7 @@ Icon
 .Trashes
 node_modules/
 bower_components/
-db/
-client/lib
+public/bundle.js
 
 #Floobits
 .floo

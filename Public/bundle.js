@@ -73,10 +73,7 @@
 	    // if token exists, take user to playlist
 	    if (jwt) {
 	      // change trigger state
-
-	      this.setState({ hasToken: true });
-	      this.setState({ showAuth: false });
-	      this.setState({ showPlaylist: true });
+	      this.setState({ hasToken: true, showAuth: false, showPlaylist: true });
 	      // save context in variable
 	      var self = this;
 
@@ -89,14 +86,6 @@
 	      });
 	    } else {
 	      console.log('NO TOKEN FOUND');
-
-	      // if no token but playlist code exists, take user to playlist
-	      if (this.state.playlistCode.length > 0) {
-	        console.log('inside else statement of showinput:', this.state.playlistCode);
-	        this.setState({ showAuth: false });
-	        this.setState({ showPlaylist: true });
-	      }
-
 	      var self = this;
 	      var playlistCode = this.state.playlistCode;
 	      helpers.checkCode(playlistCode).then(function (snapshot) {
@@ -118,7 +107,6 @@
 	    console.log('before stateChange:', newCode);
 	    // change playlist code and re-render main component
 	    this.setState({ playlistCode: newCode }, function () {
-	      console.log('here');
 	      this.showInput();
 	    });
 	    console.log('in updateCode:', this.state.playlistCode);
@@ -20714,7 +20702,6 @@
 	    console.log("PLAYLIST CODE CREATED:", playlistCode);
 
 	    // create TOKEN
-
 	    var token = tokenGenerator.createToken({ "uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true });
 	    console.log('HOST TOKEN CREATED:', token);
 
