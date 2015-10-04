@@ -42,17 +42,13 @@ var Main = React.createClass({
       console.log('NO TOKEN FOUND');
       var self = this;
       var playlistCode = this.state.playlistCode;
-      helpers.checkCode(playlistCode)
+      helpers.checkCode()
       .then(function(snapshot) {
         for (var code in snapshot.val()) {
-          if (code === self.state.playlistCode) {
-          console.log('inside else statement of showinput:');
+          if (code === playlistCode) {
+          console.log('inside else statement of showinput:', snapshot.val());
           self.setState({check: false, showAuth: false, showPlaylist: true});
-          } else {
-            if (playlistCode.length > 1) {
-              self.setState({check: true});
-            }
-          }
+          } 
         }
       });
     }
