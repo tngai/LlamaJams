@@ -30,7 +30,7 @@ var Host = React.createClass({
   render: function() {
     return (
       <div className='padded-container'>
-        <img src='../../assets/img/llamalogo.png' width='300' height='300'/>
+        <img src='../../assets/img/llamalogo.png' width='260' height='260'/>
         <div className='logo-container'>
         <div>
           {this.state.showButton ? <HostButton showInput={this.showInput}/> : null}
