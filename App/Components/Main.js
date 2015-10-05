@@ -12,12 +12,12 @@ var Main = React.createClass({
       showPlaylist: false,
       playlistCode: '',
       check: false,
-      hasToken: false
-	  };
-	},
+      hasToken: false,
+      backgroundColor: '#d0c490'
+    };
+  },
 
   showInput: function(){
-
     // retrieve token from local storage
     var jwt = window.localStorage.getItem('token');
     console.log("inside showInput:", this.state.playlistCode);
@@ -65,11 +65,14 @@ var Main = React.createClass({
 
   componentWillMount: function() {
     this.showInput();
+
+    $('body').css('background-color', this.state.backgroundColor);
   },
 
   render: function() {
     return (
-      <div className='bigger-container'>
+      <div className='home-page'>
+        <div className='bigger-container'>
         <div className='align-container'>
         <div>
           {this.state.showAuth  ? <Auth updateCode={this.updateCode}/> : null}
@@ -83,6 +86,7 @@ var Main = React.createClass({
           {this.state.check ? <h1>Playlist Not Found</h1> : null}
         </div>        
         </div>
+      </div>
       </div>
     )
   }

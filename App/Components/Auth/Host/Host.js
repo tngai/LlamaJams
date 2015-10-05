@@ -29,14 +29,16 @@ var Host = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <img src='../../assets/img/llamalogo.png' />
+      <div className='padded-container'>
+        <img src='../../assets/img/llamalogo.png' width='300' height='300'/>
+        <div className='logo-container'>
         <div>
           {this.state.showButton ? <HostButton showInput={this.showInput}/> : null}
         </div>
 
         <div>
           {this.state.showInputBar ? <InputBar {...this.props}/> : null}
+        </div>
         </div>
       </div>
     );
