@@ -28586,6 +28586,7 @@
 	  },
 
 	  handleSearchInput: function handleSearchInput(inputSearch) {
+	    console.log('handlesearchinput');
 	    this.setState({
 	      input: inputSearch
 	    });

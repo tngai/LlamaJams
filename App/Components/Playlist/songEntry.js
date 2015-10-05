@@ -81,6 +81,7 @@ var SongEntry = React.createClass({
   },
 
   handleSearchInput: function(inputSearch) {
+    console.log('handlesearchinput');
     this.setState({
       input: inputSearch
     });
