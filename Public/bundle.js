@@ -28489,6 +28489,16 @@
 	      { className: 'music-page' },
 	      React.createElement(
 	        'div',
+	        { className: 'playlistcode-container' },
+	        React.createElement(
+	          'span',
+	          null,
+	          'GuestCode: ',
+	          this.props.playlistCode
+	        )
+	      ),
+	      React.createElement(
+	        'div',
 	        { className: 'bigger-container' },
 	        React.createElement(SongEntry, this.props)
 	      )
