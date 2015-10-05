@@ -3,6 +3,11 @@ var SongEntry = require('./SongEntry');
 
 var Playlist = React.createClass({
 
+  logout: function() {
+    localStorage.clear();
+    location.reload();
+  },
+
   getInitialState: function() {
     return {
       backgroundColor: '#34344d'
@@ -20,8 +25,8 @@ var Playlist = React.createClass({
           <span className='guestcode-span'>
             GuestCode: {this.props.playlistCode}
           </span>
-          <button className='logout-button'>
-            LOGOUT
+          <button onClick={this.logout} className='logout-button'>
+            LEAVE PLAYLIST
           </button>
         </div>
         <div className='bigger-container'>
