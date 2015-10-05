@@ -28601,6 +28601,14 @@
 	    };
 	  },
 
+	  componentWillMount: function componentWillMount() {
+	    if (this.state.hasToken) {
+	      console.log('in the host');
+	    } else {
+	      console.log('in the guest');
+	    }
+	  },
+
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    this.state.hasToken = nextProps.hasToken;
 	    console.log('receiving props:', nextProps.playlistCode);
@@ -28763,6 +28771,7 @@
 	      'div',
 	      null,
 	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause }) : null,
+	      !this.state.hasToken ? React.createElement('div', { className: 'guest-box' }) : null,
 	      React.createElement(Search, { checkClick: this.handleSearchInput }),
 	      React.createElement(
 	        'div',

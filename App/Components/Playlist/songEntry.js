@@ -72,6 +72,14 @@ var SongEntry = React.createClass({
     }
   },
 
+  componentWillMount: function() {
+    if(this.state.hasToken) {
+      console.log('in the host')
+    } else {
+      console.log('in the guest');
+    }
+  },
+
   componentWillReceiveProps: function(nextProps) {
     this.state.hasToken = nextProps.hasToken;
     console.log('receiving props:', nextProps.playlistCode);
@@ -229,6 +237,7 @@ var SongEntry = React.createClass({
     return (
       <div>
        {this.state.hasToken ? <Player togglePlayer={this.playPause}/> : null}
+       {!this.state.hasToken ? <div className='guest-box'/> : null}
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
           <div className='song-results' onClick={this.pushSong}>
