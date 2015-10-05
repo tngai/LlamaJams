@@ -67,7 +67,6 @@
 	  },
 
 	  showInput: function showInput() {
-
 	    // retrieve token from local storage
 	    var jwt = window.localStorage.getItem('token');
 	    console.log("inside showInput:", this.state.playlistCode);
@@ -118,7 +117,6 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-<<<<<<< HEAD
 	      { className: 'home-page' },
 	      React.createElement(
 	        'div',
@@ -145,30 +143,6 @@
 	              'Playlist Not Found'
 	            ) : null
 	          )
-=======
-	      { className: 'bigger-container' },
-	      React.createElement(
-	        'div',
-	        { className: 'align-container' },
-	        React.createElement(
-	          'div',
-	          null,
-	          this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          this.state.check ? React.createElement(
-	            'h1',
-	            null,
-	            'Playlist Not Found'
-	          ) : null
->>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
 	        )
 	      )
 	    );
@@ -20618,13 +20592,8 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-<<<<<<< HEAD
 	      { className: 'padded-container' },
 	      React.createElement('img', { src: '../../assets/img/llamalogo.png', width: '300', height: '300' }),
-=======
-	      null,
-	      React.createElement('img', { src: '../../assets/img/llamalogo.png' }),
->>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
 	      React.createElement(
 	        'div',
 	        { className: 'logo-container' },
@@ -20664,11 +20633,7 @@
 	      React.createElement(
 	        'span',
 	        { className: 'text-lets-jam' },
-<<<<<<< HEAD
 	        'Lets Jam'
-=======
-	        'Lets Jam!'
->>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
 	      ),
 	      ' '
 	    );
@@ -28494,11 +28459,7 @@
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.submitHandler },
-<<<<<<< HEAD
 	        React.createElement('input', { type: 'text', className: 'input-join-jam', placeholder: 'JOIN A JAM', ref: 'playlistCode' })
-=======
-	        React.createElement('input', { type: 'text', className: 'input-join-jam', placeholder: 'JOIN A JAM!', ref: 'playlistCode' })
->>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
 	      )
 	    );
 	  }
