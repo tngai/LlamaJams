@@ -35,6 +35,20 @@ body.home {
   font-weight:100;
 }
 
+.logout-button {
+  background-color: #2d3137;
+  border: none;
+  color: white;
+  width: 95px;
+  height: 20px;
+  font-size: 9px;
+}
+
+.guestcode-span {
+    display: block;
+    padding-bottom: 5px;
+}
+
 .bigger-container {
   font-family: 'Proxima Nova';
   margin: 0 auto;

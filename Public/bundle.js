@@ -28498,9 +28498,14 @@
 	        { className: 'playlistcode-container' },
 	        React.createElement(
 	          'span',
-	          null,
+	          { className: 'guestcode-span' },
 	          'GuestCode: ',
 	          this.props.playlistCode
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'logout-button' },
+	          'LOGOUT'
 	        )
 	      ),
 	      React.createElement(
