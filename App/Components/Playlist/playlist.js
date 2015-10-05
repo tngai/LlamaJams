@@ -17,9 +17,12 @@ var Playlist = React.createClass({
     return (
       <div className='music-page'>
         <div className='playlistcode-container'>
-          <span>
+          <span className='guestcode-span'>
             GuestCode: {this.props.playlistCode}
           </span>
+          <button className='logout-button'>
+            LOGOUT
+          </button>
         </div>
         <div className='bigger-container'>
           <SongEntry {...this.props}/>
