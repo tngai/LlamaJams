@@ -15,7 +15,6 @@ var SongEntry = React.createClass({
     console.log("loading songs");
 
     this.firebaseRef.on('child_added', function(snapshot) {
-      console.log('child added');
 
       var eachSong = snapshot.val()
       var eachTitle = eachSong.title;
@@ -73,6 +72,14 @@ var SongEntry = React.createClass({
     }
   },
 
+  componentWillMount: function() {
+    if(this.state.hasToken) {
+      console.log('in the host')
+    } else {
+      console.log('in the guest');
+    }
+  },
+
   componentWillReceiveProps: function(nextProps) {
     this.state.hasToken = nextProps.hasToken;
     console.log('receiving props:', nextProps.playlistCode);
@@ -82,7 +89,6 @@ var SongEntry = React.createClass({
   },
 
   handleSearchInput: function(inputSearch) {
-    console.log('handlesearchinput');
     this.setState({
       input: inputSearch
     });
@@ -102,7 +108,6 @@ var SongEntry = React.createClass({
 
     for(var i = 0; i < allResults.length; i++) {
       if(allResults[i].title === selectedSong) {
-        console.log('adding song to firebase', selectedSong)
         this.firebaseRef.push({
           title: allResults[i].title,
           songUrl: allResults[i].songUrl
@@ -209,7 +214,7 @@ var SongEntry = React.createClass({
   },
 
   render: function(){
-    console.log('rendered:', this.props.playlistCode, this.state.songs);
+    console.log('rendered:', this.props.playlistCode);
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>
     })
@@ -232,6 +237,7 @@ var SongEntry = React.createClass({
     return (
       <div>
        {this.state.hasToken ? <Player togglePlayer={this.playPause}/> : null}
+       {!this.state.hasToken ? <div className='guest-box'/> : null}
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
           <div className='song-results' onClick={this.pushSong}>
@@ -245,8 +251,7 @@ var SongEntry = React.createClass({
    },
 
   componentDidMount: function() {
-    var jwt = window.localStorage.getItem('token');
-    if (this.props.playlistCode.length > 0 && !jwt) {
+    if (this.props.playlistCode.length > 0) {
       this.loadSongsFromServer(this.props.playlistCode);
       this.rerenderPlaylist();
     }
