@@ -28783,7 +28783,8 @@
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    if (this.props.playlistCode.length > 0) {
+	    var jwt = window.localStorage.getItem('token');
+	    if (this.props.playlistCode.length > 0 && !jwt) {
 	      this.loadSongsFromServer(this.props.playlistCode);
 	      this.rerenderPlaylist();
 	    }
