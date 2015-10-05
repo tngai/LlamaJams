@@ -28478,7 +28478,6 @@
 	  displayName: 'Playlist',
 
 	  logout: function logout() {
-	    console.log('WORKINF BRO', localStorage);
 	    localStorage.clear();
 	    location.reload();
 	  },
