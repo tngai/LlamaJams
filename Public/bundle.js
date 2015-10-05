@@ -28477,6 +28477,12 @@
 	var Playlist = React.createClass({
 	  displayName: 'Playlist',
 
+	  logout: function logout() {
+	    console.log('WORKINF BRO', localStorage);
+	    localStorage.clear();
+	    location.reload();
+	  },
+
 	  getInitialState: function getInitialState() {
 	    return {
 	      backgroundColor: '#34344d'
@@ -28502,8 +28508,8 @@
 	        ),
 	        React.createElement(
 	          'button',
-	          { className: 'logout-button' },
-	          'LOGOUT'
+	          { onClick: this.logout, className: 'logout-button' },
+	          'LEAVE PLAYLIST'
 	        )
 	      ),
 	      React.createElement(
