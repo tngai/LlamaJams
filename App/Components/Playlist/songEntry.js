@@ -15,6 +15,7 @@ var SongEntry = React.createClass({
     console.log("loading songs");
 
     this.firebaseRef.on('child_added', function(snapshot) {
+      console.log('child added');
 
       var eachSong = snapshot.val()
       var eachTitle = eachSong.title;
@@ -81,6 +82,7 @@ var SongEntry = React.createClass({
   },
 
   handleSearchInput: function(inputSearch) {
+    console.log('handlesearchinput');
     this.setState({
       input: inputSearch
     });
@@ -100,6 +102,7 @@ var SongEntry = React.createClass({
 
     for(var i = 0; i < allResults.length; i++) {
       if(allResults[i].title === selectedSong) {
+        console.log('adding song to firebase', selectedSong)
         this.firebaseRef.push({
           title: allResults[i].title,
           songUrl: allResults[i].songUrl
@@ -206,7 +209,7 @@ var SongEntry = React.createClass({
   },
 
   render: function(){
-    console.log('rendered:', this.props.playlistCode);
+    console.log('rendered:', this.props.playlistCode, this.state.songs);
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>
     })
@@ -242,7 +245,8 @@ var SongEntry = React.createClass({
    },
 
   componentDidMount: function() {
-    if (this.props.playlistCode.length > 0) {
+    var jwt = window.localStorage.getItem('token');
+    if (this.props.playlistCode.length > 0 && !jwt) {
       this.loadSongsFromServer(this.props.playlistCode);
       this.rerenderPlaylist();
     }

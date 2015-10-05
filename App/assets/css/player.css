@@ -27,6 +27,27 @@ body.home {
 }
 
 /*//contains all the divs*/
+.playlistcode-container {
+  padding-top: 3px;
+  float: right;
+  text-transform: uppercase;
+  font-size:11px;
+  font-weight:100;
+}
+
+.logout-button {
+  background-color: #2d3137;
+  border: none;
+  color: white;
+  width: 95px;
+  height: 20px;
+  font-size: 9px;
+}
+
+.guestcode-span {
+    display: block;
+    padding-bottom: 5px;
+}
 
 .bigger-container {
   font-family: 'Proxima Nova';
