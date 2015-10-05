@@ -69,7 +69,8 @@ var Main = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className='bigger-container'>
+        <div className='align-container'>
         <div>
           {this.state.showAuth  ? <Auth updateCode={this.updateCode}/> : null}
         </div>
@@ -81,7 +82,7 @@ var Main = React.createClass({
         <div>
           {this.state.check ? <h1>Playlist Not Found</h1> : null}
         </div>        
-
+        </div>
       </div>
     )
   }

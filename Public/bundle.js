@@ -115,25 +115,29 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'bigger-container' },
 	      React.createElement(
 	        'div',
-	        null,
-	        this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        this.state.check ? React.createElement(
-	          'h1',
+	        { className: 'align-container' },
+	        React.createElement(
+	          'div',
 	          null,
-	          'Playlist Not Found'
-	        ) : null
+	          this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.check ? React.createElement(
+	            'h1',
+	            null,
+	            'Playlist Not Found'
+	          ) : null
+	        )
 	      )
 	    );
 	  }
@@ -20583,11 +20587,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Host'
-	      ),
+	      React.createElement('img', { src: '../../assets/img/llamalogo.png' }),
 	      React.createElement(
 	        'div',
 	        null,
@@ -20618,8 +20618,14 @@
 	  render: function render() {
 	    return React.createElement(
 	      'button',
-	      { onClick: this.props.showInput, className: 'host-button' },
-	      'Host'
+	      { onClick: this.props.showInput, className: 'button-lets-jam' },
+	      ' ',
+	      React.createElement(
+	        'span',
+	        { className: 'text-lets-jam' },
+	        'Lets Jam!'
+	      ),
+	      ' '
 	    );
 	  }
 	});
@@ -20655,7 +20661,7 @@
 	    return React.createElement(
 	      'form',
 	      { onSubmit: this.createData },
-	      React.createElement('input', { type: 'text', placeholder: 'First Name', ref: 'firstname' })
+	      React.createElement('input', { className: 'input-host-jam', type: 'text', placeholder: 'Playlist Name', ref: 'firstname' })
 	    );
 	  }
 	});
@@ -21158,7 +21164,7 @@
 	 * 
 	 */
 	/**
-	 * bluebird build version 2.10.1
+	 * bluebird build version 2.10.2
 	 * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, cancel, using, filter, any, each, timers
 	*/
 	!function(e){if(true)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Promise=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -25422,10 +25428,16 @@
 
 	var afterTimeout = function (promise, message) {
 	    if (!promise.isPending()) return;
-	    if (typeof message !== "string") {
-	        message = "operation timed out";
+	    
+	    var err;
+	    if(!util.isPrimitive(message) && (message instanceof Error)) {
+	        err = message;
+	    } else {
+	        if (typeof message !== "string") {
+	            message = "operation timed out";
+	        }
+	        err = new TimeoutError(message);
 	    }
-	    var err = new TimeoutError(message);
 	    util.markAsOriginatingFromRejection(err);
 	    promise._attachExtraTrace(err);
 	    promise._cancel(err);
@@ -28440,16 +28452,11 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Guest'
-	      ),
+	      { className: 'guest-container' },
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.submitHandler },
-	        React.createElement('input', { type: 'text', placeholder: 'Playlist Code', ref: 'playlistCode' })
+	        React.createElement('input', { type: 'text', className: 'input-join-jam', placeholder: 'JOIN A JAM!', ref: 'playlistCode' })
 	      )
 	    );
 	  }

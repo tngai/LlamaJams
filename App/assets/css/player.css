@@ -3,11 +3,9 @@
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: 'OpenSans-Regular';
   letter-spacing: 0.2px;
-  background-image: url('../img/blur.jpg');
-  background-repeat: no-repeat;
-  background-position: absolute;
+  background-color: #d0c490;
   height: 100%;
   color: #fff;
 }
@@ -20,7 +18,14 @@ body {
   position: relative;
 }
 
+.align-container {
+  text-align: center;
+}
 /*buttons*/
+
+.guest-container {
+  padding-top: 17px;
+}
 
 .player-container {
   width: 100%;
@@ -37,6 +42,21 @@ body {
   margin-top: 70px;
   margin-bottom: 25px;
   background-color: transparent;
+}
+
+.text-lets-jam {
+  text-transform: uppercase;
+  padding: 20px 30px 20px 30px;
+  color: white;
+}
+
+.button-lets-jam {
+  background-color: #ff6c00;
+  width: 183px;
+  height: 48px;
+  font-size: 15px;
+  letter-spacing: 3px;
+  border-width: 0px;
 }
 
 .button-play {
@@ -75,6 +95,29 @@ body {
 
 /*search bar */
 
+.input-join-jam {
+  background-color: #f1b136;
+  width: 183px;
+  height: 29px;
+  border-width: 0px;
+  color:#fff;
+  padding: 5px 5px 5px 5px;
+}
+
+.input-host-jam {
+  background-color: #ff6c00;
+  width: 183px;
+  height: 29px;
+  border-width: 0px;
+  color:#fff;
+  padding: 5px 5px 5px 5px;
+}
+
+::-webkit-input-placeholder{
+  color: white;
+  text-align: center;
+}
+
 .searchbar-container {
   margin: 0 auto;
   text-align: center;
@@ -88,7 +131,7 @@ body {
 }
 
 .searchbar input {
-  font-family: 'Open Sans';
+  font-family: 'OpenSans-Regular';
   font-size: 13px;
   color: #000;
   border-width: 0px;
@@ -122,7 +165,7 @@ body {
 }
 
 .song-results {
-  font-family: 'Open Sans';
+  font-family: 'OpenSans-Regular';
   font-size: 13px;
   font-color: #ccc;
   padding-left: 2px;
@@ -132,7 +175,7 @@ body {
 
 .song-results a {
   display: block;
-  font-family: 'Open Sans';
+  font-family: 'OpenSans-Regular';
   font-size: 13px;
   color: #ccc;
   text-decoration: none;
@@ -142,7 +185,7 @@ body {
 }
 
 .song-results a:hover {
-  font-family: 'Open Sans';
+  font-family: 'OpenSans-Regular';
   background-color: #383838;
   font-size: 13px;
   font-color: #666;
