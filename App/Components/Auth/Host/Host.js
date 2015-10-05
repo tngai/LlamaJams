@@ -30,7 +30,7 @@ var Host = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Host</h1>
+        <img src='../../assets/img/llamalogo.png' />
         <div>
           {this.state.showButton ? <HostButton showInput={this.showInput}/> : null}
         </div>
