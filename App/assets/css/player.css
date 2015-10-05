@@ -12,6 +12,7 @@ background-size: cover;
 body {
   font-family: 'Proxima Nova';
   letter-spacing: 0.2px;
+  background-color: #d0c490;
   height: 100%;
   color: #fff;
 }
@@ -82,6 +83,10 @@ body.home {
   height: 48px;
   font-size: 15px;
   letter-spacing: 2px;
+  width: 183px;
+  height: 48px;
+  font-size: 15px;
+  letter-spacing: 3px;
   border-width: 0px;
 }
 
@@ -127,6 +132,9 @@ body.home {
   height: 29px;
   border-width: 0px;
   font-family: 'Proxima Nova';
+  width: 183px;
+  height: 29px;
+  border-width: 0px;
   color:#fff;
   padding: 5px 5px 5px 5px;
 }
@@ -135,6 +143,8 @@ body.home {
   font-family: 'Proxima Nova';
   background-color: #ff6c00;
   width: 330px;
+  background-color: #ff6c00;
+  width: 183px;
   height: 29px;
   border-width: 0px;
   color:#fff;
@@ -147,6 +157,8 @@ body.home {
   text-align: center;
   letter-spacing:2px;
   text-transform: uppercase;
+  color: white;
+  text-align: center;
 }
 
 .searchbar-container {
