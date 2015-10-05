@@ -28480,7 +28480,6 @@
 	  displayName: 'Playlist',
 
 	  logout: function logout() {
-	    console.log('WORKINF BRO', localStorage);
 	    localStorage.clear();
 	    location.reload();
 	  },
@@ -28547,7 +28546,6 @@
 	    console.log("loading songs");
 
 	    this.firebaseRef.on('child_added', (function (snapshot) {
-	      console.log('child added');
 
 	      var eachSong = snapshot.val();
 	      var eachTitle = eachSong.title;
@@ -28605,6 +28603,14 @@
 	    };
 	  },
 
+	  componentWillMount: function componentWillMount() {
+	    if (this.state.hasToken) {
+	      console.log('in the host');
+	    } else {
+	      console.log('in the guest');
+	    }
+	  },
+
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    this.state.hasToken = nextProps.hasToken;
 	    console.log('receiving props:', nextProps.playlistCode);
@@ -28614,7 +28620,6 @@
 	  },
 
 	  handleSearchInput: function handleSearchInput(inputSearch) {
-	    console.log('handlesearchinput');
 	    this.setState({
 	      input: inputSearch
 	    });
@@ -28634,7 +28639,6 @@
 
 	    for (var i = 0; i < allResults.length; i++) {
 	      if (allResults[i].title === selectedSong) {
-	        console.log('adding song to firebase', selectedSong);
 	        this.firebaseRef.push({
 	          title: allResults[i].title,
 	          songUrl: allResults[i].songUrl
@@ -28736,7 +28740,7 @@
 	  },
 
 	  render: function render() {
-	    console.log('rendered:', this.props.playlistCode, this.state.songs);
+	    console.log('rendered:', this.props.playlistCode);
 	    var songStructure = this.state.songs.map(function (song, i) {
 	      return React.createElement(Song, { data: song, key: i });
 	    });
@@ -28769,6 +28773,7 @@
 	      'div',
 	      null,
 	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause }) : null,
+	      !this.state.hasToken ? React.createElement('div', { className: 'guest-box' }) : null,
 	      React.createElement(Search, { checkClick: this.handleSearchInput }),
 	      React.createElement(
 	        'div',
@@ -28784,8 +28789,7 @@
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    var jwt = window.localStorage.getItem('token');
-	    if (this.props.playlistCode.length > 0 && !jwt) {
+	    if (this.props.playlistCode.length > 0) {
 	      this.loadSongsFromServer(this.props.playlistCode);
 	      this.rerenderPlaylist();
 	    }
