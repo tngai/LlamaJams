@@ -2,30 +2,60 @@
   box-sizing: border-box;
 }
 
+html {
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+
 body {
-  font-family: 'Open Sans';
+  font-family: 'Proxima Nova';
   letter-spacing: 0.2px;
-  background-image: url('../img/blur.jpg');
-  background-repeat: no-repeat;
-  background-position: absolute;
   height: 100%;
   color: #fff;
+}
+
+body.music {
+  background: #34344d;
+}
+
+body.home {
+  background: #d0c490;
+  
 }
 
 /*//contains all the divs*/
 
 .bigger-container {
+  font-family: 'Proxima Nova';
   margin: 0 auto;
   width: 70%;
   position: relative;
 }
 
+.align-container {
+  text-align: center;
+}
 /*buttons*/
+
+.guest-container {
+  font-family: 'Proxima Nova';
+  padding-top: 17px;
+}
+
+.logo-container {
+  padding-top: 23px;
+}
 
 .player-container {
   width: 100%;
   margin-bottom: 150px;
   margin: 0 auto;
+}
+
+.padded-container {
+  padding-top:30px;
 }
 
 .play-pause {
@@ -37,6 +67,22 @@ body {
   margin-top: 70px;
   margin-bottom: 25px;
   background-color: transparent;
+}
+
+.text-lets-jam {
+  font-family: 'Proxima Nova';
+  text-transform: uppercase;
+  padding: 20px 30px 20px 30px;
+  color: white;
+}
+
+.button-lets-jam {
+  background-color: #ff6c00;
+  width: 330px;
+  height: 48px;
+  font-size: 15px;
+  letter-spacing: 2px;
+  border-width: 0px;
 }
 
 .button-play {
@@ -75,6 +121,34 @@ body {
 
 /*search bar */
 
+.input-join-jam {
+  background-color: #f1b136;
+  width: 330px;
+  height: 29px;
+  border-width: 0px;
+  font-family: 'Proxima Nova';
+  color:#fff;
+  padding: 5px 5px 5px 5px;
+}
+
+.input-host-jam {
+  font-family: 'Proxima Nova';
+  background-color: #ff6c00;
+  width: 330px;
+  height: 29px;
+  border-width: 0px;
+  color:#fff;
+  padding: 5px 5px 5px 5px;
+}
+
+::-webkit-input-placeholder{
+  font-family: 'Proxima Nova';
+  color: white;
+  text-align: center;
+  letter-spacing:2px;
+  text-transform: uppercase;
+}
+
 .searchbar-container {
   margin: 0 auto;
   text-align: center;
@@ -88,9 +162,9 @@ body {
 }
 
 .searchbar input {
-  font-family: 'Open Sans';
+  font-family: 'Proxima Nova';
   font-size: 13px;
-  color: #000;
+  color: #fff;
   border-width: 0px;
   width: 100%;
   height: 20px;
@@ -99,6 +173,7 @@ body {
   border-color: #fff;
   border-width: 1px;
   border-style: solid;
+  padding: 6px 6px 6px 6px;
 }
 
 /*close box*/
@@ -122,7 +197,7 @@ body {
 }
 
 .song-results {
-  font-family: 'Open Sans';
+  font-family: 'Proxima Nova';
   font-size: 13px;
   font-color: #ccc;
   padding-left: 2px;
@@ -132,7 +207,7 @@ body {
 
 .song-results a {
   display: block;
-  font-family: 'Open Sans';
+  font-family: 'Proxima Nova';
   font-size: 13px;
   color: #ccc;
   text-decoration: none;
@@ -142,7 +217,7 @@ body {
 }
 
 .song-results a:hover {
-  font-family: 'Open Sans';
+  font-family: 'Proxima Nova';
   background-color: #383838;
   font-size: 13px;
   font-color: #666;

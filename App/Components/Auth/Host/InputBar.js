@@ -19,7 +19,7 @@ var InputBar = React.createClass({
   render: function() {
     return (
       <form onSubmit={this.createData}>
-        <input type='text' placeholder='First Name' ref='firstname'/>
+        <input className='input-host-jam' type='text' placeholder='Playlist Name' ref='firstname'/>
       </form>
     );
   }
