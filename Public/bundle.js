@@ -20592,7 +20592,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'padded-container' },
-	      React.createElement('img', { src: '../../assets/img/llamalogo.png', width: '300', height: '300' }),
+	      React.createElement('img', { src: '../../assets/img/llamalogo.png', width: '260', height: '260' }),
 	      React.createElement(
 	        'div',
 	        { className: 'logo-container' },
