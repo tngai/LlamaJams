@@ -16,6 +16,11 @@ var Playlist = React.createClass({
   render: function() {
     return (
       <div className='music-page'>
+        <div className='playlistcode-container'>
+          <span>
+            GuestCode: {this.props.playlistCode}
+          </span>
+        </div>
         <div className='bigger-container'>
           <SongEntry {...this.props}/>
         </div>
