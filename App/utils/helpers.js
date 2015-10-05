@@ -48,10 +48,9 @@ module.exports = {
     return playlistCode;
 	},
 
-  checkCode: function(code) {
-    console.log('inside checkcode:', code)
+  checkCode: function() {
+    console.log('inside checkcode:')
     return fpRef.once('value');
   }
 }
-
 

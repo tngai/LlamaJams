@@ -11,10 +11,9 @@ var Guest = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <h1>Guest</h1>
+      <div className='guest-container'>
         <form onSubmit={this.submitHandler}>
-        	<input type='text' placeholder='Playlist Code' ref='playlistCode'/>
+          <input type='text' className='input-join-jam' placeholder='JOIN A JAM' ref='playlistCode'/>
         </form>
       </div>
     );

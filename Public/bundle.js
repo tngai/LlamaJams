@@ -48,10 +48,11 @@
 
 	var React = __webpack_require__(1);
 	var Auth = __webpack_require__(157);
-	var Playlist = __webpack_require__(207);
-	var helpers = __webpack_require__(200);
+	var Playlist = __webpack_require__(168);
+	var helpers = __webpack_require__(161);
 
 	var Main = React.createClass({
+<<<<<<< HEAD
 <<<<<<< HEAD
 			displayName: 'Main',
 
@@ -130,6 +131,8 @@
 					);
 			}
 =======
+=======
+>>>>>>> a60c9c89bf80b3829966ce5df419f6bc1c02d885
 	  displayName: 'Main',
 
 	  getInitialState: function getInitialState() {
@@ -139,7 +142,8 @@
 	      showPlaylist: false,
 	      playlistCode: '',
 	      check: false,
-	      hasToken: false
+	      hasToken: false,
+	      backgroundColor: '#d0c490'
 	    };
 	  },
 
@@ -151,9 +155,7 @@
 	    // if token exists, take user to playlist
 	    if (jwt) {
 	      // change trigger state
-	      this.setState({ hasToken: true });
-	      this.setState({ showAuth: false });
-	      this.setState({ showPlaylist: true });
+	      this.setState({ hasToken: true, showAuth: false, showPlaylist: true });
 	      // save context in variable
 	      var self = this;
 
@@ -168,15 +170,11 @@
 	      console.log('NO TOKEN FOUND');
 	      var self = this;
 	      var playlistCode = this.state.playlistCode;
-	      helpers.checkCode(playlistCode).then(function (snapshot) {
+	      helpers.checkCode().then(function (snapshot) {
 	        for (var code in snapshot.val()) {
-	          if (code === self.state.playlistCode) {
-	            console.log('inside else statement of showinput:');
+	          if (code === playlistCode) {
+	            console.log('inside else statement of showinput:', snapshot.val());
 	            self.setState({ check: false, showAuth: false, showPlaylist: true });
-	          } else {
-	            if (playlistCode.length > 1) {
-	              self.setState({ check: true });
-	            }
 	          }
 	        }
 	      });
@@ -194,34 +192,72 @@
 
 	  componentWillMount: function componentWillMount() {
 	    this.showInput();
+
+	    $('body').css('background-color', this.state.backgroundColor);
 	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+<<<<<<< HEAD
+	      { className: 'home-page' },
 	      React.createElement(
 	        'div',
-	        null,
-	        this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
-	      ),
+	        { className: 'bigger-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'align-container' },
+	          React.createElement(
+	            'div',
+	            null,
+	            this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            this.state.check ? React.createElement(
+	              'h1',
+	              null,
+	              'Playlist Not Found'
+	            ) : null
+	          )
+=======
+	      { className: 'bigger-container' },
 	      React.createElement(
 	        'div',
-	        null,
-	        this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        this.state.check ? React.createElement(
-	          'h1',
+	        { className: 'align-container' },
+	        React.createElement(
+	          'div',
 	          null,
-	          'Playlist Not Found'
-	        ) : null
+	          this.state.showAuth ? React.createElement(Auth, { updateCode: this.updateCode }) : null
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.check ? React.createElement(
+	            'h1',
+	            null,
+	            'Playlist Not Found'
+	          ) : null
+>>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
+	        )
 	      )
 	    );
 	  }
+<<<<<<< HEAD
 >>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
+=======
+>>>>>>> a60c9c89bf80b3829966ce5df419f6bc1c02d885
 	});
 
 	React.render(React.createElement(Main, null), document.getElementById('app'));
@@ -20611,7 +20647,7 @@
 
 	var React = __webpack_require__(1);
 	var Host = __webpack_require__(158);
-	var Guest = __webpack_require__(206);
+	var Guest = __webpack_require__(167);
 
 	var Auth = React.createClass({
 	  displayName: 'Auth',
@@ -20635,10 +20671,9 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Router = __webpack_require__(159);
 
-	var HostButton = __webpack_require__(198);
-	var InputBar = __webpack_require__(199);
+	var HostButton = __webpack_require__(159);
+	var InputBar = __webpack_require__(160);
 
 	var Host = React.createClass({
 	  displayName: 'Host',
@@ -20668,21 +20703,26 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
+<<<<<<< HEAD
+	      { className: 'padded-container' },
+	      React.createElement('img', { src: '../../assets/img/llamalogo.png', width: '300', height: '300' }),
+=======
 	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Host'
-	      ),
+	      React.createElement('img', { src: '../../assets/img/llamalogo.png' }),
+>>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
 	      React.createElement(
 	        'div',
-	        null,
-	        this.state.showButton ? React.createElement(HostButton, { showInput: this.showInput }) : null
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        this.state.showInputBar ? React.createElement(InputBar, this.props) : null
+	        { className: 'logo-container' },
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.showButton ? React.createElement(HostButton, { showInput: this.showInput }) : null
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.showInputBar ? React.createElement(InputBar, this.props) : null
+	        )
 	      )
 	    );
 	  }
@@ -20696,35 +20736,31 @@
 
 	'use strict';
 
-	exports.DefaultRoute = __webpack_require__(160);
-	exports.Link = __webpack_require__(173);
-	exports.NotFoundRoute = __webpack_require__(174);
-	exports.Redirect = __webpack_require__(175);
-	exports.Route = __webpack_require__(172);
-	exports.ActiveHandler = __webpack_require__(170);
-	exports.RouteHandler = exports.ActiveHandler;
+	var React = __webpack_require__(1);
 
-	exports.HashLocation = __webpack_require__(176);
-	exports.HistoryLocation = __webpack_require__(179);
-	exports.RefreshLocation = __webpack_require__(180);
-	exports.StaticLocation = __webpack_require__(181);
-	exports.TestLocation = __webpack_require__(182);
+	var HostButton = React.createClass({
+	  displayName: 'HostButton',
 
-	exports.ImitateBrowserBehavior = __webpack_require__(183);
-	exports.ScrollToTopBehavior = __webpack_require__(184);
+	  render: function render() {
+	    return React.createElement(
+	      'button',
+	      { onClick: this.props.showInput, className: 'button-lets-jam' },
+	      ' ',
+	      React.createElement(
+	        'span',
+	        { className: 'text-lets-jam' },
+<<<<<<< HEAD
+	        'Lets Jam'
+=======
+	        'Lets Jam!'
+>>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
+	      ),
+	      ' '
+	    );
+	  }
+	});
 
-	exports.History = __webpack_require__(178);
-	exports.Navigation = __webpack_require__(185);
-	exports.State = __webpack_require__(186);
-
-	exports.createRoute = __webpack_require__(162).createRoute;
-	exports.createDefaultRoute = __webpack_require__(162).createDefaultRoute;
-	exports.createNotFoundRoute = __webpack_require__(162).createNotFoundRoute;
-	exports.createRedirect = __webpack_require__(162).createRedirect;
-	exports.createRoutesFromReactChildren = __webpack_require__(187);
-
-	exports.create = __webpack_require__(188);
-	exports.run = __webpack_require__(197);
+	module.exports = HostButton;
 
 /***/ },
 /* 160 */
@@ -20732,51 +20768,35 @@
 
 	'use strict';
 
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+	var React = __webpack_require__(1);
+	var helpers = __webpack_require__(161);
 
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	var InputBar = React.createClass({
+	  displayName: 'InputBar',
 
-	var PropTypes = __webpack_require__(161);
-	var RouteHandler = __webpack_require__(170);
-	var Route = __webpack_require__(172);
+	  createData: function createData(e) {
+	    e.preventDefault();
+	    // store host's first name in variable
+	    var firstname = this.refs.firstname.getDOMNode().value;
 
-	/**
-	 * A <DefaultRoute> component is a special kind of <Route> that
-	 * renders when its parent matches but none of its siblings do.
-	 * Only one such route may be used at any given level in the
-	 * route hierarchy.
-	 */
+	    // create playlist and set new data node in firebase
+	    // returns new playlist code
+	    var playlistCode = helpers.createPlaylist(firstname);
 
-	var DefaultRoute = (function (_Route) {
-	  function DefaultRoute() {
-	    _classCallCheck(this, DefaultRoute);
+	    // update playlistCode state in Main
+	    this.props.updateCode(playlistCode);
+	  },
 
-	    if (_Route != null) {
-	      _Route.apply(this, arguments);
-	    }
+	  render: function render() {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.createData },
+	      React.createElement('input', { className: 'input-host-jam', type: 'text', placeholder: 'Playlist Name', ref: 'firstname' })
+	    );
 	  }
+	});
 
-	  _inherits(DefaultRoute, _Route);
-
-	  return DefaultRoute;
-	})(Route);
-
-	// TODO: Include these in the above class definition
-	// once we can use ES7 property initializers.
-	// https://github.com/babel/babel/issues/619
-
-	DefaultRoute.propTypes = {
-	  name: PropTypes.string,
-	  path: PropTypes.falsy,
-	  children: PropTypes.falsy,
-	  handler: PropTypes.func.isRequired
-	};
-
-	DefaultRoute.defaultProps = {
-	  handler: RouteHandler
-	};
-
-	module.exports = DefaultRoute;
+	module.exports = InputBar;
 
 /***/ },
 /* 161 */
@@ -20784,359 +20804,62 @@
 
 	'use strict';
 
-	var assign = __webpack_require__(13);
-	var ReactPropTypes = __webpack_require__(1).PropTypes;
-	var Route = __webpack_require__(162);
+	var Firebase = __webpack_require__(162);
+	var FirebaseTokenGenerator = __webpack_require__(163);
+	var Promise = __webpack_require__(164);
+	var Fireproof = __webpack_require__(166);
+	Fireproof.bless(Promise);
 
-	var PropTypes = assign({}, ReactPropTypes, {
+	// create reference to database
+	var ref = new Firebase('https://llamajamsauth.firebaseio.com/');
+	// 'promisable' reference
+	var fpRef = new Fireproof(ref);
 
-	  /**
-	   * Indicates that a prop should be falsy.
-	   */
-	  falsy: function falsy(props, propName, componentName) {
-	    if (props[propName]) {
-	      return new Error('<' + componentName + '> should not have a "' + propName + '" prop');
-	    }
+	// use database secret for token generator
+	var tokenGenerator = new FirebaseTokenGenerator('VgF8MXKNUfEnzygDAERDZdiLPUS86W4AGBHmEYM8');
+
+	module.exports = {
+
+	  // OLD HOST
+	  authHost: function authHost(token) {
+	    console.log('SUBMITTED HOST TOKEN:', token);
+	    // AUTHENTICATE WITH TOKEN
+	    return fpRef.authWithCustomToken(token);
 	  },
 
-	  /**
-	   * Indicates that a prop should be a Route object.
-	   */
-	  route: ReactPropTypes.instanceOf(Route),
+	  // NEW HOST
+	  createPlaylist: function createPlaylist(firstName) {
+	    // create PLAYLIST CODE
+	    var playlistCode = firstName + Math.floor(Math.random() * 100);
+	    console.log("PLAYLIST CODE CREATED:", playlistCode);
 
-	  /**
-	   * Indicates that a prop should be a Router object.
-	   */
-	  //router: ReactPropTypes.instanceOf(Router) // TODO
-	  router: ReactPropTypes.func
+	    // create TOKEN
+	    var token = tokenGenerator.createToken({ "uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true });
+	    console.log('HOST TOKEN CREATED:', token);
 
-	});
+	    window.localStorage.setItem('token', token);
 
-	module.exports = PropTypes;
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var assign = __webpack_require__(13);
-	var invariant = __webpack_require__(7);
-	var warning = __webpack_require__(15);
-	var PathUtils = __webpack_require__(163);
-
-	var _currentRoute;
-
-	var Route = (function () {
-	  function Route(name, path, ignoreScrollBehavior, isDefault, isNotFound, onEnter, onLeave, handler) {
-	    _classCallCheck(this, Route);
-
-	    this.name = name;
-	    this.path = path;
-	    this.paramNames = PathUtils.extractParamNames(this.path);
-	    this.ignoreScrollBehavior = !!ignoreScrollBehavior;
-	    this.isDefault = !!isDefault;
-	    this.isNotFound = !!isNotFound;
-	    this.onEnter = onEnter;
-	    this.onLeave = onLeave;
-	    this.handler = handler;
-	  }
-
-	  _createClass(Route, [{
-	    key: 'appendChild',
-
-	    /**
-	     * Appends the given route to this route's child routes.
-	     */
-	    value: function appendChild(route) {
-	      invariant(route instanceof Route, 'route.appendChild must use a valid Route');
-
-	      if (!this.childRoutes) this.childRoutes = [];
-
-	      this.childRoutes.push(route);
-	    }
-	  }, {
-	    key: 'toString',
-	    value: function toString() {
-	      var string = '<Route';
-
-	      if (this.name) string += ' name="' + this.name + '"';
-
-	      string += ' path="' + this.path + '">';
-
-	      return string;
-	    }
-	  }], [{
-	    key: 'createRoute',
-
-	    /**
-	     * Creates and returns a new route. Options may be a URL pathname string
-	     * with placeholders for named params or an object with any of the following
-	     * properties:
-	     *
-	     * - name                     The name of the route. This is used to lookup a
-	     *                            route relative to its parent route and should be
-	     *                            unique among all child routes of the same parent
-	     * - path                     A URL pathname string with optional placeholders
-	     *                            that specify the names of params to extract from
-	     *                            the URL when the path matches. Defaults to `/${name}`
-	     *                            when there is a name given, or the path of the parent
-	     *                            route, or /
-	     * - ignoreScrollBehavior     True to make this route (and all descendants) ignore
-	     *                            the scroll behavior of the router
-	     * - isDefault                True to make this route the default route among all
-	     *                            its siblings
-	     * - isNotFound               True to make this route the "not found" route among
-	     *                            all its siblings
-	     * - onEnter                  A transition hook that will be called when the
-	     *                            router is going to enter this route
-	     * - onLeave                  A transition hook that will be called when the
-	     *                            router is going to leave this route
-	     * - handler                  A React component that will be rendered when
-	     *                            this route is active
-	     * - parentRoute              The parent route to use for this route. This option
-	     *                            is automatically supplied when creating routes inside
-	     *                            the callback to another invocation of createRoute. You
-	     *                            only ever need to use this when declaring routes
-	     *                            independently of one another to manually piece together
-	     *                            the route hierarchy
-	     *
-	     * The callback may be used to structure your route hierarchy. Any call to
-	     * createRoute, createDefaultRoute, createNotFoundRoute, or createRedirect
-	     * inside the callback automatically uses this route as its parent.
-	     */
-	    value: function createRoute(options, callback) {
-	      options = options || {};
-
-	      if (typeof options === 'string') options = { path: options };
-
-	      var parentRoute = _currentRoute;
-
-	      if (parentRoute) {
-	        warning(options.parentRoute == null || options.parentRoute === parentRoute, 'You should not use parentRoute with createRoute inside another route\'s child callback; it is ignored');
-	      } else {
-	        parentRoute = options.parentRoute;
-	      }
-
-	      var name = options.name;
-	      var path = options.path || name;
-
-	      if (path && !(options.isDefault || options.isNotFound)) {
-	        if (PathUtils.isAbsolute(path)) {
-	          if (parentRoute) {
-	            invariant(path === parentRoute.path || parentRoute.paramNames.length === 0, 'You cannot nest path "%s" inside "%s"; the parent requires URL parameters', path, parentRoute.path);
-	          }
-	        } else if (parentRoute) {
-	          // Relative paths extend their parent.
-	          path = PathUtils.join(parentRoute.path, path);
-	        } else {
-	          path = '/' + path;
-	        }
-	      } else {
-	        path = parentRoute ? parentRoute.path : '/';
-	      }
-
-	      if (options.isNotFound && !/\*$/.test(path)) path += '*'; // Auto-append * to the path of not found routes.
-
-	      var route = new Route(name, path, options.ignoreScrollBehavior, options.isDefault, options.isNotFound, options.onEnter, options.onLeave, options.handler);
-
-	      if (parentRoute) {
-	        if (route.isDefault) {
-	          invariant(parentRoute.defaultRoute == null, '%s may not have more than one default route', parentRoute);
-
-	          parentRoute.defaultRoute = route;
-	        } else if (route.isNotFound) {
-	          invariant(parentRoute.notFoundRoute == null, '%s may not have more than one not found route', parentRoute);
-
-	          parentRoute.notFoundRoute = route;
-	        }
-
-	        parentRoute.appendChild(route);
-	      }
-
-	      // Any routes created in the callback
-	      // use this route as their parent.
-	      if (typeof callback === 'function') {
-	        var currentRoute = _currentRoute;
-	        _currentRoute = route;
-	        callback.call(route, route);
-	        _currentRoute = currentRoute;
-	      }
-
-	      return route;
-	    }
-	  }, {
-	    key: 'createDefaultRoute',
-
-	    /**
-	     * Creates and returns a route that is rendered when its parent matches
-	     * the current URL.
-	     */
-	    value: function createDefaultRoute(options) {
-	      return Route.createRoute(assign({}, options, { isDefault: true }));
-	    }
-	  }, {
-	    key: 'createNotFoundRoute',
-
-	    /**
-	     * Creates and returns a route that is rendered when its parent matches
-	     * the current URL but none of its siblings do.
-	     */
-	    value: function createNotFoundRoute(options) {
-	      return Route.createRoute(assign({}, options, { isNotFound: true }));
-	    }
-	  }, {
-	    key: 'createRedirect',
-
-	    /**
-	     * Creates and returns a route that automatically redirects the transition
-	     * to another route. In addition to the normal options to createRoute, this
-	     * function accepts the following options:
-	     *
-	     * - from         An alias for the `path` option. Defaults to *
-	     * - to           The path/route/route name to redirect to
-	     * - params       The params to use in the redirect URL. Defaults
-	     *                to using the current params
-	     * - query        The query to use in the redirect URL. Defaults
-	     *                to using the current query
-	     */
-	    value: function createRedirect(options) {
-	      return Route.createRoute(assign({}, options, {
-	        path: options.path || options.from || '*',
-	        onEnter: function onEnter(transition, params, query) {
-	          transition.redirect(options.to, options.params || params, options.query || query);
-	        }
-	      }));
-	    }
-	  }]);
-
-	  return Route;
-	})();
-
-	module.exports = Route;
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var invariant = __webpack_require__(7);
-	var assign = __webpack_require__(164);
-	var qs = __webpack_require__(165);
-
-	var paramCompileMatcher = /:([a-zA-Z_$][a-zA-Z0-9_$]*)|[*.()\[\]\\+|{}^$]/g;
-	var paramInjectMatcher = /:([a-zA-Z_$][a-zA-Z0-9_$?]*[?]?)|[*]/g;
-	var paramInjectTrailingSlashMatcher = /\/\/\?|\/\?\/|\/\?/g;
-	var queryMatcher = /\?(.*)$/;
-
-	var _compiledPatterns = {};
-
-	function compilePattern(pattern) {
-	  if (!(pattern in _compiledPatterns)) {
-	    var paramNames = [];
-	    var source = pattern.replace(paramCompileMatcher, function (match, paramName) {
-	      if (paramName) {
-	        paramNames.push(paramName);
-	        return '([^/?#]+)';
-	      } else if (match === '*') {
-	        paramNames.push('splat');
-	        return '(.*?)';
-	      } else {
-	        return '\\' + match;
-	      }
-	    });
-
-	    _compiledPatterns[pattern] = {
-	      matcher: new RegExp('^' + source + '$', 'i'),
-	      paramNames: paramNames
+	    var refactored = {
+	      token: token,
+	      playlist: 'playlist',
+	      playlistCode: playlistCode
 	    };
+
+	    var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
+
+	    // set the refactored data in database
+	    playlistRef.set(refactored);
+
+	    return playlistCode;
+	  },
+
+	  checkCode: function checkCode() {
+	    console.log('inside checkcode:');
+	    return fpRef.once('value');
 	  }
+	};
 
-	  return _compiledPatterns[pattern];
-	}
-
-	var PathUtils = {
-
-	  /**
-	   * Returns true if the given path is absolute.
-	   */
-	  isAbsolute: function isAbsolute(path) {
-	    return path.charAt(0) === '/';
-	  },
-
-	  /**
-	   * Joins two URL paths together.
-	   */
-	  join: function join(a, b) {
-	    return a.replace(/\/*$/, '/') + b;
-	  },
-
-	  /**
-	   * Returns an array of the names of all parameters in the given pattern.
-	   */
-	  extractParamNames: function extractParamNames(pattern) {
-	    return compilePattern(pattern).paramNames;
-	  },
-
-	  /**
-	   * Extracts the portions of the given URL path that match the given pattern
-	   * and returns an object of param name => value pairs. Returns null if the
-	   * pattern does not match the given path.
-	   */
-	  extractParams: function extractParams(pattern, path) {
-	    var _compilePattern = compilePattern(pattern);
-
-	    var matcher = _compilePattern.matcher;
-	    var paramNames = _compilePattern.paramNames;
-
-	    var match = path.match(matcher);
-
-	    if (!match) {
-	      return null;
-	    }var params = {};
-
-	    paramNames.forEach(function (paramName, index) {
-	      params[paramName] = match[index + 1];
-	    });
-
-	    return params;
-	  },
-
-	  /**
-	   * Returns a version of the given route path with params interpolated. Throws
-	   * if there is a dynamic segment of the route path for which there is no param.
-	   */
-	  injectParams: function injectParams(pattern, params) {
-	    params = params || {};
-
-	    var splatIndex = 0;
-
-	    return pattern.replace(paramInjectMatcher, function (match, paramName) {
-	      paramName = paramName || 'splat';
-
-	      // If param is optional don't check for existence
-	      if (paramName.slice(-1) === '?') {
-	        paramName = paramName.slice(0, -1);
-
-	        if (params[paramName] == null) return '';
-	      } else {
-	        invariant(params[paramName] != null, 'Missing "%s" parameter for path "%s"', paramName, pattern);
-	      }
-
-	      var segment;
-	      if (paramName === 'splat' && Array.isArray(params[paramName])) {
-	        segment = params[paramName][splatIndex++];
-
-	        invariant(segment != null, 'Missing splat # %s for path "%s"', splatIndex, pattern);
-	      } else {
-	        segment = params[paramName];
-	      }
-
+<<<<<<< HEAD
 	      return segment;
 	    }).replace(paramInjectTrailingSlashMatcher, '/');
 	  },
@@ -23957,6 +23680,10 @@
 
 /***/ },
 /* 201 */
+=======
+/***/ },
+/* 162 */
+>>>>>>> a60c9c89bf80b3829966ce5df419f6bc1c02d885
 /***/ function(module, exports) {
 
 	/*! @license Firebase v2.3.1
@@ -24231,7 +23958,7 @@
 
 
 /***/ },
-/* 202 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var COMPILED=!0,goog=goog||{};goog.global=this;goog.exportPath_=function(a,b,c){a=a.split(".");c=c||goog.global;!(a[0]in c)&&c.execScript&&c.execScript("var "+a[0]);for(var d;a.length&&(d=a.shift());)!a.length&&void 0!==b?c[d]=b:c=c[d]?c[d]:c[d]={}};goog.define=function(a,b){var c=b;COMPILED||goog.global.CLOSURE_DEFINES&&Object.prototype.hasOwnProperty.call(goog.global.CLOSURE_DEFINES,a)&&(c=goog.global.CLOSURE_DEFINES[a]);goog.exportPath_(a,c)};goog.DEBUG=!0;goog.define("goog.LOCALE","en");
@@ -24362,7 +24089,7 @@
 
 
 /***/ },
-/* 203 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -29252,10 +28979,10 @@
 
 	},{"./es5.js":14}]},{},[4])(4)
 	});                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), (function() { return this; }()), __webpack_require__(204).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), (function() { return this; }()), __webpack_require__(165).setImmediate))
 
 /***/ },
-/* 204 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(3).nextTick;
@@ -29334,10 +29061,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(204).setImmediate, __webpack_require__(204).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(165).setImmediate, __webpack_require__(165).clearImmediate))
 
 /***/ },
-/* 205 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! fireproof 3.0.3, © 2015 J2H2 Inc. ISC License.
@@ -31650,13 +31377,13 @@
 
 
 /***/ },
-/* 206 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var helpers = __webpack_require__(200);
+	var helpers = __webpack_require__(161);
 
 	var Guest = React.createClass({
 	  displayName: 'Guest',
@@ -31671,16 +31398,15 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Guest'
-	      ),
+	      { className: 'guest-container' },
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.submitHandler },
-	        React.createElement('input', { type: 'text', placeholder: 'Playlist Code', ref: 'playlistCode' })
+<<<<<<< HEAD
+	        React.createElement('input', { type: 'text', className: 'input-join-jam', placeholder: 'JOIN A JAM', ref: 'playlistCode' })
+=======
+	        React.createElement('input', { type: 'text', className: 'input-join-jam', placeholder: 'JOIN A JAM!', ref: 'playlistCode' })
+>>>>>>> 147cc43b01a3569912ab90e3913738ff4ab625c3
 	      )
 	    );
 	  }
@@ -31689,15 +31415,16 @@
 	module.exports = Guest;
 
 /***/ },
-/* 207 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var SongEntry = __webpack_require__(208);
+	var SongEntry = __webpack_require__(169);
 
 	var Playlist = React.createClass({
+<<<<<<< HEAD
 		displayName: 'Playlist',
 
 		render: function render() {
@@ -31713,21 +31440,46 @@
 >>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
 			);
 		}
+=======
+	  displayName: 'Playlist',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      backgroundColor: '#34344d'
+	    };
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    $('body').css('background-color', this.state.backgroundColor);
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'music-page' },
+	      React.createElement(
+	        'div',
+	        { className: 'bigger-container' },
+	        React.createElement(SongEntry, this.props)
+	      )
+	    );
+	  }
+>>>>>>> a60c9c89bf80b3829966ce5df419f6bc1c02d885
 	});
 
 	module.exports = Playlist;
 
 /***/ },
-/* 208 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Search = __webpack_require__(209);
-	var Song = __webpack_require__(210);
-	var Player = __webpack_require__(211);
-	var Firebase = __webpack_require__(201);
+	var Search = __webpack_require__(170);
+	var Song = __webpack_require__(171);
+	var Player = __webpack_require__(172);
+	var Firebase = __webpack_require__(162);
 
 	var SongEntry = React.createClass({
 	  displayName: 'SongEntry',
@@ -31984,7 +31736,7 @@
 	module.exports = SongEntry;
 
 /***/ },
-/* 209 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31994,7 +31746,6 @@
 	var Search = React.createClass({
 	  displayName: 'Search',
 
-	  //div overlay needs to exist somewhere
 	  handleSubmit: function handleSubmit(e) {
 	    e.preventDefault();
 	    var inputVal = React.findDOMNode(this.refs.input).value;
@@ -32011,7 +31762,7 @@
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.handleSubmit },
-	          React.createElement('input', { type: 'text', onSumbit: this.props.checkClick, ref: 'input' })
+	          React.createElement('input', { type: 'text', onSubmit: this.props.checkClick, ref: 'input' })
 	        )
 	      )
 	    );
@@ -32021,7 +31772,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 210 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32035,11 +31786,6 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'container-playlist' },
-	      React.createElement(
-	        'div',
-	        { className: 'close-container' },
-	        React.createElement('img', { src: './assets/img/button-x.png', width: '15', height: '15' })
-	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'song-view' },
@@ -32057,7 +31803,7 @@
 	module.exports = Song;
 
 /***/ },
-/* 211 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32102,11 +31848,6 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'player-container' },
-	      React.createElement(
-	        'div',
-	        { className: 'close-container' },
-	        React.createElement('img', { src: 'assets/img/button-x.png', width: '15', height: '15' })
-	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'play-pause' },

@@ -1,7 +1,6 @@
 var React = require('react');
 
 var Search = React.createClass({
-
   handleSubmit: function(e) {
     e.preventDefault();
     var inputVal = React.findDOMNode(this.refs.input).value

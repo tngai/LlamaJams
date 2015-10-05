@@ -2,31 +2,61 @@
   box-sizing: border-box;
 }
 
+html {
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+
 body {
-  font-family: 'Lato-thin';
+  font-family: 'Proxima Nova';
   letter-spacing: 0.2px;
-  background-image: url('../img/blur.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: absolute;
+  background-color: #d0c490;
   height: 100%;
   color: #fff;
+}
+
+body.music {
+  background: #34344d;
+}
+
+body.home {
+  background: #d0c490;
+  
 }
 
 /*//contains all the divs*/
 
 .bigger-container {
+  font-family: 'Proxima Nova';
   margin: 0 auto;
   width: 70%;
   position: relative;
 }
 
+.align-container {
+  text-align: center;
+}
 /*buttons*/
+
+.guest-container {
+  font-family: 'Proxima Nova';
+  padding-top: 17px;
+}
+
+.logo-container {
+  padding-top: 23px;
+}
 
 .player-container {
   width: 100%;
   margin-bottom: 150px;
   margin: 0 auto;
+}
+
+.padded-container {
+  padding-top:30px;
 }
 
 .play-pause {
@@ -38,6 +68,26 @@ body {
   margin-top: 70px;
   margin-bottom: 25px;
   background-color: transparent;
+}
+
+.text-lets-jam {
+  font-family: 'Proxima Nova';
+  text-transform: uppercase;
+  padding: 20px 30px 20px 30px;
+  color: white;
+}
+
+.button-lets-jam {
+  background-color: #ff6c00;
+  width: 330px;
+  height: 48px;
+  font-size: 15px;
+  letter-spacing: 2px;
+  width: 183px;
+  height: 48px;
+  font-size: 15px;
+  letter-spacing: 3px;
+  border-width: 0px;
 }
 
 .button-play {
@@ -59,7 +109,6 @@ body {
 }
 
 .song-view{
-<<<<<<< HEAD
   font-size: 17px;
   font-weight:580;
 }
@@ -68,18 +117,48 @@ body {
   font-size: 15px;
   font-weight:100;
   padding-top: 4px;
-=======
-  font-size: 16px;
-  font-weight: bold;
 }
 
 .artist-view{
   padding-top: 4px;
   font-size: 14px;
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
-}
 
 /*search bar */
+
+.input-join-jam {
+  background-color: #f1b136;
+  width: 330px;
+  height: 29px;
+  border-width: 0px;
+  font-family: 'Proxima Nova';
+  width: 183px;
+  height: 29px;
+  border-width: 0px;
+  color:#fff;
+  padding: 5px 5px 5px 5px;
+}
+
+.input-host-jam {
+  font-family: 'Proxima Nova';
+  background-color: #ff6c00;
+  width: 330px;
+  background-color: #ff6c00;
+  width: 183px;
+  height: 29px;
+  border-width: 0px;
+  color:#fff;
+  padding: 5px 5px 5px 5px;
+}
+
+::-webkit-input-placeholder{
+  font-family: 'Proxima Nova';
+  color: white;
+  text-align: center;
+  letter-spacing:2px;
+  text-transform: uppercase;
+  color: white;
+  text-align: center;
+}
 
 .searchbar-container {
   margin: 0 auto;
@@ -94,52 +173,20 @@ body {
 }
 
 .searchbar input {
-<<<<<<< HEAD
-  font-family: 'Open Sans';
-=======
-  font-family: 'Lato-thin';
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
+  font-family: 'Proxima Nova';
   font-size: 13px;
-  color: #000;
+  color: #fff;
   border-width: 0px;
   width: 100%;
   height: 20px;
-<<<<<<< HEAD
   border-radius: 50px;
   background-color: transparent;
   border-color: #fff;
   border-width: 1px;
   border-style: solid;
-=======
-  border-radius: 5px;
-  background-color: white;
-  opacity: 0.2;
-  border-color: #fff;
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
-  padding-left: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-<<<<<<< HEAD
-=======
-
-.searchbar input:hover {
-  font-family: 'Lato-thin';
-  font-size: 13px;
-  color: #000;
-  border-width: 0px;
-  width: 100%;
-  height: 20px;
-  border-radius: 5px;
-  background-color: white;
-  opacity: 0.4;
-  border-color: #fff;
-  padding-left: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 6px 6px 6px 6px;
 }
 
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
 /*close box*/
 
 .close-container {
@@ -161,11 +208,7 @@ body {
 }
 
 .song-results {
-<<<<<<< HEAD
-  font-family: 'Open Sans';
-=======
-  font-family: 'Lato-thin';
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
+  font-family: 'Proxima Nova';
   font-size: 13px;
   font-color: #ccc;
   padding-left: 2px;
@@ -175,11 +218,7 @@ body {
 
 .song-results a {
   display: block;
-<<<<<<< HEAD
-  font-family: 'Open Sans';
-=======
-  font-family: 'Lato-thin';
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
+  font-family: 'Proxima Nova';
   font-size: 13px;
   color: #ccc;
   text-decoration: none;
@@ -189,11 +228,7 @@ body {
 }
 
 .song-results a:hover {
-<<<<<<< HEAD
-  font-family: 'Open Sans';
-=======
-  font-family: 'Lato-thin';
->>>>>>> ae8b5e49fd2b56f30642f8020c20228c5696c3b1
+  font-family: 'Proxima Nova';
   background-color: #383838;
   font-size: 13px;
   font-color: #666;

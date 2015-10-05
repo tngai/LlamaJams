@@ -12,20 +12,18 @@ var Main = React.createClass({
       showPlaylist: false,
       playlistCode: '',
       check: false,
-      hasToken: false
-	  };
-	},
+      hasToken: false,
+      backgroundColor: '#d0c490'
+    };
+  },
   showInput: function(){
-
     // retrieve token from local storage
     var jwt = window.localStorage.getItem('token');
     console.log("inside showInput:", this.state.playlistCode);
     // if token exists, take user to playlist
     if (jwt) {
       // change trigger state
-      this.setState({hasToken: true});
-      this.setState({showAuth: false});
-      this.setState({showPlaylist: true});
+      this.setState({hasToken: true, showAuth: false, showPlaylist: true});
       // save context in variable
       var self = this;
 
@@ -43,17 +41,13 @@ var Main = React.createClass({
       console.log('NO TOKEN FOUND');
       var self = this;
       var playlistCode = this.state.playlistCode;
-      helpers.checkCode(playlistCode)
+      helpers.checkCode()
       .then(function(snapshot) {
         for (var code in snapshot.val()) {
-          if (code === self.state.playlistCode) {
-          console.log('inside else statement of showinput:');
+          if (code === playlistCode) {
+          console.log('inside else statement of showinput:', snapshot.val());
           self.setState({check: false, showAuth: false, showPlaylist: true});
-          } else {
-            if (playlistCode.length > 1) {
-              self.setState({check: true});
-            }
-          }
+          } 
         }
       });
     }
@@ -70,11 +64,15 @@ var Main = React.createClass({
 
   componentWillMount: function() {
     this.showInput();
+
+    $('body').css('background-color', this.state.backgroundColor);
   },
 
   render: function() {
     return (
-      <div>
+      <div className='home-page'>
+        <div className='bigger-container'>
+        <div className='align-container'>
         <div>
           {this.state.showAuth  ? <Auth updateCode={this.updateCode}/> : null}
         </div>
@@ -86,7 +84,8 @@ var Main = React.createClass({
         <div>
           {this.state.check ? <h1>Playlist Not Found</h1> : null}
         </div>        
-
+        </div>
+      </div>
       </div>
     )
   }
