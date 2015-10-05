@@ -44,6 +44,17 @@ body.home {
   font-size: 9px;
 }
 
+.guest-box {
+  margin: 0 auto;
+  padding-top: 50px;
+  text-align: center;
+  height: 100px;
+  width: 100%;
+  margin-top: 70px;
+  margin-bottom: 25px;
+  background-color: transparent;
+}
+
 .guestcode-span {
     display: block;
     padding-bottom: 5px;
