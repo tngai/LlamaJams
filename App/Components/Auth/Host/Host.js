@@ -20,7 +20,6 @@ var Host = React.createClass({
     //if token exists, take user to playlist
     if (jwt) {
       //take to playlist
-      console.log('We have TOKEN');
     } else {
       this.setState({showButton: false});
       this.setState({showInputBar: true});
@@ -30,7 +29,7 @@ var Host = React.createClass({
   render: function() {
     return (
       <div className='padded-container'>
-        <img src='../../assets/img/llamalogo.png' width='260' height='260'/>
+        <img src='../../assets/img/llamalogo.png'/>
         <div className='logo-container'>
         <div>
           {this.state.showButton ? <HostButton showInput={this.showInput}/> : null}

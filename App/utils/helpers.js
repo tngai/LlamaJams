@@ -15,23 +15,21 @@ var tokenGenerator = new FirebaseTokenGenerator('VgF8MXKNUfEnzygDAERDZdiLPUS86W4
 
 module.exports = {
  
-  // OLD HOST
+  // RETURNING HOST
   authHost: function(token) {
-    console.log('SUBMITTED HOST TOKEN:', token);
-    // AUTHENTICATE WITH TOKEN
+    // authenticate with token
     return fpRef.authWithCustomToken(token);
   },
 
   // NEW HOST
   createPlaylist: function(firstName) {
-    // create PLAYLIST CODE
+    // create playlist code
     var playlistCode = firstName + Math.floor(Math.random()*100);
-    console.log("PLAYLIST CODE CREATED:", playlistCode);
 
-    // create TOKEN
-		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode, "isOwner": true});
-		console.log('HOST TOKEN CREATED:', token);
+    // create token with random uid string (not important, just need it to create a token)
+		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode});
 
+    // store token
 		window.localStorage.setItem('token', token);
 
 		var refactored = {
@@ -42,14 +40,15 @@ module.exports = {
 		
 		var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
 
-    // set the refactored data in database
+    // set the refactored data in database with playlistCode as item name
     playlistRef.set(refactored);
 
     return playlistCode;
 	},
 
+  // GUESTS
   checkCode: function() {
-    console.log('inside checkcode:')
+    // return a 'promisable' snaoshot of firebase data
     return fpRef.once('value');
   }
 }

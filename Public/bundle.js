@@ -65,7 +65,6 @@
 	      backgroundColor: '#d0c490'
 	    };
 	  },
-
 	  showInput: function showInput() {
 	    // retrieve token from local storage
 	    var jwt = window.localStorage.getItem('token');
@@ -80,6 +79,7 @@
 	      // authenticate token
 	      helpers.authHost(jwt).then(function (data) {
 	        console.log('AUTH SUCCESSFUL ON RETURN:', data);
+	        // save playlist code as state, to be transferred down to children component as property
 	        self.setState({ playlistCode: data.auth.playlistCode });
 	      })['catch'](function (err) {
 	        console.log(err);
@@ -89,7 +89,9 @@
 	      var self = this;
 	      var playlistCode = this.state.playlistCode;
 	      helpers.checkCode().then(function (snapshot) {
+	        // iterate through array of playlists(objects)
 	        for (var code in snapshot.val()) {
+	          // if it matches the playlist code, render playlist view
 	          if (code === playlistCode) {
 	            console.log('inside else statement of showinput:', snapshot.val());
 	            self.setState({ check: false, showAuth: false, showPlaylist: true });
@@ -114,6 +116,7 @@
 	    $('body').css('background-color', this.state.backgroundColor);
 	  },
 
+	  // render is in ternary conditional statements ("if the state is true, show element (playlist or auth)")
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -133,15 +136,6 @@
 	            'div',
 	            null,
 	            this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
-	          ),
-	          React.createElement(
-	            'div',
-	            null,
-	            this.state.check ? React.createElement(
-	              'h1',
-	              null,
-	              'Playlist Not Found'
-	            ) : null
 	          )
 	        )
 	      )
@@ -20593,7 +20587,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'padded-container' },
-	      React.createElement('img', { src: '../../assets/img/llamalogo.png', width: '260', height: '260' }),
+	      React.createElement('img', { src: '../../assets/img/llamalogo.png' }),
 	      React.createElement(
 	        'div',
 	        { className: 'logo-container' },
@@ -28451,7 +28445,6 @@
 	    console.log('GUEST CODE:', newCode);
 	    this.props.updateCode(newCode);
 	  },
-
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -28479,6 +28472,11 @@
 	var Playlist = React.createClass({
 	  displayName: 'Playlist',
 
+	  logout: function logout() {
+	    localStorage.clear();
+	    location.reload();
+	  },
+
 	  getInitialState: function getInitialState() {
 	    return {
 	      backgroundColor: '#34344d'
@@ -28493,6 +28491,21 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'music-page' },
+	      React.createElement(
+	        'div',
+	        { className: 'playlistcode-container' },
+	        React.createElement(
+	          'span',
+	          { className: 'guestcode-span' },
+	          'GuestCode: ',
+	          this.props.playlistCode
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.logout, className: 'logout-button' },
+	          'LEAVE PLAYLIST'
+	        )
+	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'bigger-container' },
@@ -28786,7 +28799,6 @@
 	    var inputVal = React.findDOMNode(this.refs.input).value;
 	    this.props.checkClick(inputVal);
 	  },
-
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -28854,7 +28866,6 @@
 	      pause: false
 	    };
 	  },
-
 	  playShouldpause: function playShouldpause() {
 	    this.setState({
 	      play: !this.state.play,
@@ -28862,7 +28873,6 @@
 	    });
 	    this.props.togglePlayer(this.state.play);
 	  },
-
 	  render: function render() {
 	    if (this.state.play) {
 	      var displayPlay = {
