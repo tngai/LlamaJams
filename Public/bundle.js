@@ -21174,7 +21174,7 @@
 	 * 
 	 */
 	/**
-	 * bluebird build version 2.10.1
+	 * bluebird build version 2.10.2
 	 * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, cancel, using, filter, any, each, timers
 	*/
 	!function(e){if(true)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Promise=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -25438,10 +25438,16 @@
 
 	var afterTimeout = function (promise, message) {
 	    if (!promise.isPending()) return;
-	    if (typeof message !== "string") {
-	        message = "operation timed out";
+	    
+	    var err;
+	    if(!util.isPrimitive(message) && (message instanceof Error)) {
+	        err = message;
+	    } else {
+	        if (typeof message !== "string") {
+	            message = "operation timed out";
+	        }
+	        err = new TimeoutError(message);
 	    }
-	    var err = new TimeoutError(message);
 	    util.markAsOriginatingFromRejection(err);
 	    promise._attachExtraTrace(err);
 	    promise._cancel(err);
@@ -28597,14 +28603,6 @@
 	    };
 	  },
 
-	  componentWillMount: function componentWillMount() {
-	    if (this.state.hasToken) {
-	      console.log('in the host');
-	    } else {
-	      console.log('in the guest');
-	    }
-	  },
-
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    this.state.hasToken = nextProps.hasToken;
 	    console.log('receiving props:', nextProps.playlistCode);
@@ -28767,7 +28765,6 @@
 	      'div',
 	      null,
 	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause }) : null,
-	      !this.state.hasToken ? React.createElement('div', { className: 'guest-box' }) : null,
 	      React.createElement(Search, { checkClick: this.handleSearchInput }),
 	      React.createElement(
 	        'div',
@@ -28783,8 +28780,7 @@
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    var jwt = window.localStorage.getItem('token');
-	    if (this.props.playlistCode.length > 0 && !jwt) {
+	    if (this.props.playlistCode.length > 0) {
 	      this.loadSongsFromServer(this.props.playlistCode);
 	      this.rerenderPlaylist();
 	    }
