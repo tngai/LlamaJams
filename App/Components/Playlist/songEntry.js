@@ -6,57 +6,49 @@ var Firebase = require('firebase');
 
 
 var SongEntry = React.createClass({
-  // This function fetches the right playlist from firebase based on
+  // This function fetches the right playlist from Firebase based on
   // your playlist code.
   loadSongsFromServer: function(receivedCode) {
-
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
-
     this.firebaseRef.on('child_added', function(snapshot) {
-
       var eachSong = snapshot.val()
       var eachTitle = eachSong.title;
+      // The next three lines attempt to parse the song title to store
       var separateTitleandArtist = eachTitle.indexOf('-')
-
       var artist = eachTitle.slice(0, separateTitleandArtist)
       var song = eachTitle.slice(separateTitleandArtist + 2, eachTitle.length)
-
-        this.items.push({
-          artist: artist,
-          song: song,
-          songUrl: eachSong.songUrl
-        });
-
+      // Pushes each song into the items array for rendering
+      this.items.push({
+        artist: artist,
+        song: song,
+        songUrl: eachSong.songUrl
+      });
       this.setState({songs: this.items})
     }.bind(this));
   },
-  // 
+  // This rerenders the playlist every time a song is removed from Firebase
   rerenderPlaylist: function() {
     this.firebaseRef.on('child_removed', function(snapshot) {
       var removeSongbyUrl = snapshot.val().songUrl;
-
       var isFound = false;
+
       for(var i = 0; i < this.state.songs.length; i++) {
         if(this.state.songs[i].songUrl === removeSongbyUrl && !isFound) {
           this.state.songs.splice(i,1)
           isFound = true;
         }
       }
-
       this.setState({
         songs: this.state.songs
-      })
-
+      });
       this.forceUpdate();
     }.bind(this));
   },
-
   getDefaultProps: function() {
     return {
       playlistCode: ''
     }
   },
-
   getInitialState: function(){
     this.items = [];
     return {
@@ -68,30 +60,26 @@ var SongEntry = React.createClass({
       hasToken: false
     }
   },
-
   componentWillReceiveProps: function(nextProps) {
     this.state.hasToken = nextProps.hasToken;
     var receivedCode = nextProps.playlistCode;
     this.loadSongsFromServer(receivedCode);
     this.rerenderPlaylist();
   },
-
   handleSearchInput: function(inputSearch) {
     this.setState({
       input: inputSearch
     });
     this.toggleBox();
-    this.soundCloudCall(inputSearch)
+    this.soundCloudCall(inputSearch);
   },
-
   toggleBox: function() {
     this.setState({
       active: !this.state.active
     })
   },
-
   pushSong: function(e) {
-    var selectedSong = e.target.childNodes[0].data
+    var selectedSong = e.target.childNodes[0].data;
     var allResults = this.state.searchResults;
 
     for(var i = 0; i < allResults.length; i++) {
@@ -99,14 +87,12 @@ var SongEntry = React.createClass({
         this.firebaseRef.push({
           title: allResults[i].title,
           songUrl: allResults[i].songUrl
-        })
+        });
       }
     }
-
    this.toggleBox();
    e.preventDefault();
   },
-
   playPause: function() {
     var fbref = this.firebaseRef;
     var songs = this.state.songs;
@@ -117,24 +103,20 @@ var SongEntry = React.createClass({
         var duration = this.duration;
       },
       onfinish : function(){
-        //delete first song from firebase
+        // delete first song from firebase
         var children = [];
         fbref.once('value', function(snapshot){
           snapshot.forEach(function(childSnapshot){
             children.push(childSnapshot.key().toString());
-          })
+          });
         });
         fbref.child(children[0]).remove();
-        //shift the top song off the playlist array
-
         // play firstSong
         SC.stream(player.state.songs[0].songUrl, myOptions, function(song) {
           song.play();
-        })
-         
+        });
       }
     }
-
     if(!window.soundManager){
       SC.stream(player.state.songs[0].songUrl, myOptions, function(song) {
         song.play();
@@ -152,15 +134,12 @@ var SongEntry = React.createClass({
         window.soundManager.pauseAll();
       }
     }
-
   },
-
   soundCloudCall: function(inputSearch) {
     if(this.state.searchResults.length > 0) {
       this.setState({ searchResults: this.state.searchResults.slice(0) })
       this.forceUpdate();
     } 
-
     SC.get('http://api.soundcloud.com/tracks/', { q: inputSearch, limit: 7 }, function(tracks) {
     // Display each song title and an option to add '+' to host playlist
       var obj = [];
@@ -168,7 +147,6 @@ var SongEntry = React.createClass({
       for(var i = 0; i < tracks.length; i++) {
         var eachSong = tracks[i].title;
         var eachUrl = tracks[i].uri;
-
         obj.push({
           title: eachSong,
           songUrl: eachUrl
@@ -178,7 +156,6 @@ var SongEntry = React.createClass({
       this.setState({ 
         searchResults: obj 
       })
-
    }.bind(this));
 
   },
@@ -187,12 +164,10 @@ var SongEntry = React.createClass({
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>
     })
-
     var songResults = this.state.searchResults.map(function(song, i) {
       var songUri = song.songUrl
       return <a className='song-results' href='#' ref='eachSoundcloud' value={songUri}>{song.title}<div className='plus'>+</div></a>
     })
-
     if(this.state.active) {
       var display = {
         display: 'block'
@@ -202,7 +177,6 @@ var SongEntry = React.createClass({
         display: 'none' 
       }
     }
-
     return (
       <div>
        {this.state.hasToken ? <Player togglePlayer={this.playPause}/> : null}
@@ -215,17 +189,13 @@ var SongEntry = React.createClass({
        {songStructure}
       </div>
     );
-    
    },
-
   componentDidMount: function() {
     if (this.props.playlistCode.length > 0) {
       this.loadSongsFromServer(this.props.playlistCode);
       this.rerenderPlaylist();
     }
   }
-
-
-  });
+});
 
 module.exports = SongEntry;
