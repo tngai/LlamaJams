@@ -65,7 +65,6 @@
 	      backgroundColor: '#d0c490'
 	    };
 	  },
-
 	  showInput: function showInput() {
 	    // retrieve token from local storage
 	    var jwt = window.localStorage.getItem('token');
@@ -28446,7 +28445,6 @@
 	    console.log('GUEST CODE:', newCode);
 	    this.props.updateCode(newCode);
 	  },
-
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -28801,7 +28799,6 @@
 	    var inputVal = React.findDOMNode(this.refs.input).value;
 	    this.props.checkClick(inputVal);
 	  },
-
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -28869,7 +28866,6 @@
 	      pause: false
 	    };
 	  },
-
 	  playShouldpause: function playShouldpause() {
 	    this.setState({
 	      play: !this.state.play,
@@ -28877,7 +28873,6 @@
 	    });
 	    this.props.togglePlayer(this.state.play);
 	  },
-
 	  render: function render() {
 	    if (this.state.play) {
 	      var displayPlay = {

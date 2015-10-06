@@ -8,7 +8,6 @@ var Guest = React.createClass({
     var newCode = this.refs.playlistCode.getDOMNode().value;
     this.props.updateCode(newCode);
   },
-
   render: function() {
     return (
       <div className='guest-container'>

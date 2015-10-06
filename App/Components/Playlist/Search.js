@@ -10,7 +10,6 @@ var Search = React.createClass({
     //to scrape soundcloud API data
     this.props.checkClick(inputVal)
   },
-
   render: function() {
    return (
       <div className='searchbar-container'>

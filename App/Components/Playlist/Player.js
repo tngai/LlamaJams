@@ -20,7 +20,6 @@ var Player = React.createClass({
   //passes in the current state as an argument
     this.props.togglePlayer(this.state.play)
   },
-
    render: function() {
   //these are used to create style properties for the images
   //this.state.play means that the play button should show, and the pause button should hide
