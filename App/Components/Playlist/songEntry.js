@@ -10,6 +10,7 @@ var SongEntry = React.createClass({
   // your playlist code.
   loadSongsFromServer: function(receivedCode) {
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
+
     this.firebaseRef.on('child_added', function(snapshot) {
       var eachSong = snapshot.val()
       var eachTitle = eachSong.title;
@@ -31,19 +32,22 @@ var SongEntry = React.createClass({
     this.firebaseRef.on('child_removed', function(snapshot) {
       var removeSongbyUrl = snapshot.val().songUrl;
       var isFound = false;
-
+      // Loops through the songs array and removes the deleted song
+      // from firebase to control rendering for react
       for(var i = 0; i < this.state.songs.length; i++) {
         if(this.state.songs[i].songUrl === removeSongbyUrl && !isFound) {
           this.state.songs.splice(i,1)
           isFound = true;
         }
       }
+      // Resets the state to accurately reflect removed items
       this.setState({
         songs: this.state.songs
       });
       this.forceUpdate();
     }.bind(this));
   },
+  // Sets the initial playlist code to an empty string
   getDefaultProps: function() {
     return {
       playlistCode: ''
@@ -78,6 +82,7 @@ var SongEntry = React.createClass({
       active: !this.state.active
     })
   },
+  // This function adds songs to firebase
   pushSong: function(e) {
     var selectedSong = e.target.childNodes[0].data;
     var allResults = this.state.searchResults;
@@ -93,6 +98,7 @@ var SongEntry = React.createClass({
    this.toggleBox();
    e.preventDefault();
   },
+  // Controls the play and pause functionality of the music player
   playPause: function() {
     var fbref = this.firebaseRef;
     var songs = this.state.songs;
@@ -103,7 +109,7 @@ var SongEntry = React.createClass({
         var duration = this.duration;
       },
       onfinish : function(){
-        // delete first song from firebase
+        // Delete first song from firebase
         var children = [];
         fbref.once('value', function(snapshot){
           snapshot.forEach(function(childSnapshot){
@@ -111,12 +117,13 @@ var SongEntry = React.createClass({
           });
         });
         fbref.child(children[0]).remove();
-        // play firstSong
+        // Play firstSong
         SC.stream(player.state.songs[0].songUrl, myOptions, function(song) {
           song.play();
         });
       }
     }
+    // If there's no current soundManager object, create one
     if(!window.soundManager){
       SC.stream(player.state.songs[0].songUrl, myOptions, function(song) {
         song.play();
@@ -135,6 +142,7 @@ var SongEntry = React.createClass({
       }
     }
   },
+  // Controls the searching and displaying of results from the SoundCloud API
   soundCloudCall: function(inputSearch) {
     if(this.state.searchResults.length > 0) {
       this.setState({ searchResults: this.state.searchResults.slice(0) })
@@ -152,14 +160,11 @@ var SongEntry = React.createClass({
           songUrl: eachUrl
         });
        }
-
       this.setState({ 
         searchResults: obj 
       })
    }.bind(this));
-
   },
-
   render: function(){
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>

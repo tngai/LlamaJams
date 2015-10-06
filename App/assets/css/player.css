@@ -1,14 +1,4 @@
-* {
-  box-sizing: border-box;
-}
-
-html {
--webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
-}
-
+/* need to download proximanova in the css folder to view proxima nova */
 body {
   font-family: 'Proxima Nova';
   letter-spacing: 0.2px;
@@ -17,15 +7,7 @@ body {
   color: #fff;
 }
 
-body.music {
-  background: #34344d;
-}
-
-body.home {
-  background-color: #d0c490;
-}
-
-/*//contains all the divs*/
+/* container is used to place the guestcode:NAME on the top right of the playlist page */
 .playlistcode-container {
   padding-top: 3px;
   float: right;
@@ -34,6 +16,7 @@ body.home {
   font-weight:100;
 }
 
+/* log out button div properties */
 .logout-button {
   background-color: #2d3137;
   border: none;
@@ -43,6 +26,7 @@ body.home {
   font-size: 9px;
 }
 
+/* specifically renders the guest playlist */
 .guest-box {
   margin: 0 auto;
   padding-top: 50px;
@@ -54,11 +38,13 @@ body.home {
   background-color: transparent;
 }
 
+/* uses a span element to display the guest codes with padding */
 .guestcode-span {
-    display: block;
-    padding-bottom: 5px;
+  display: block;
+  padding-bottom: 5px;
 }
 
+/*holds the entire div elements, which wraps all the elements that are at 100% width, to make it a consistent 70% width*/
 .bigger-container {
   font-family: 'Proxima Nova';
   margin: 0 auto;
@@ -69,17 +55,18 @@ body.home {
 .align-container {
   text-align: center;
 }
-/*buttons*/
 
 .guest-container {
   font-family: 'Proxima Nova';
   padding-top: 17px;
 }
 
+/* creates padding for the front page logo */
 .logo-container {
   padding-top: 23px;
 }
 
+/* holds the play and pause buttons and .play-pause */
 .player-container {
   width: 100%;
   margin-bottom: 150px;
@@ -90,6 +77,7 @@ body.home {
   padding-top:30px;
 }
 
+/* holds the play and pause buttons */
 .play-pause {
   margin: 0 auto;
   padding-top: 50px;
@@ -101,6 +89,7 @@ body.home {
   background-color: transparent;
 }
 
+/* text of the lets jam button on the front page */
 .text-lets-jam {
   font-family: 'Proxima Nova';
   text-transform: uppercase;
@@ -108,6 +97,7 @@ body.home {
   color: white;
 }
 
+/* lets jam button on the front page */
 .button-lets-jam {
   background-color: #ff6c00;
   width: 330px;
@@ -121,6 +111,7 @@ body.home {
   border-width: 0px;
 }
 
+/* buttons have display inline-block to make it flow with the rest of the div elemeents*/
 .button-play {
   display: inline-block;
 }
@@ -129,8 +120,7 @@ body.home {
   display: inline-block;
 }
 
-/*playlist songs*/
-
+/* container playlist holds all the chosen songs */
 .container-playlist {
   margin: 0 auto;
   height: 80px;
@@ -139,22 +129,20 @@ body.home {
   background-color: transparent;
 }
 
+/* changes the size of the songs for each song that is rendered onto the page */
 .song-view{
   font-size: 17px;
   font-weight:580;
 }
 
+/* changes the size of the artists for each artist that is rendered onto the page */
 .artist-view{
   font-size: 15px;
   font-weight:100;
   padding-top: 4px;
 }
 
-.artist-view{
-  padding-top: 4px;
-  font-size: 14px;
-}
-
+/* the front page input that holds the guest code playlist name after 'lets jam' is clicked */
 .input-join-jam {
   background-color: #f1b136;
   width: 330px;
@@ -168,6 +156,7 @@ body.home {
   padding: 5px 5px 5px 5px;
 }
 
+/* the front page input that holds the 'join a jam' */
 .input-host-jam {
   font-family: 'Proxima Nova';
   background-color: #ff6c00;
@@ -180,6 +169,7 @@ body.home {
   padding: 5px 5px 5px 5px;
 }
 
+/* makes the placeholders centered and white instead of gray */
 ::-webkit-input-placeholder{
   font-family: 'Proxima Nova';
   color: white;
@@ -190,6 +180,7 @@ body.home {
   text-align: center;
 }
 
+/* puts the input bar in a container to make it centered */
 .searchbar-container {
   margin: 0 auto;
   text-align: center;
@@ -202,6 +193,7 @@ body.home {
   width: 100%;
 }
 
+/* styles the input bar */
 .searchbar input {
   font-family: 'Proxima Nova';
   font-size: 13px;
@@ -217,16 +209,7 @@ body.home {
   padding: 6px 6px 6px 6px;
 }
 
-/*close box*/
-
-.close-container {
-  vertical-align: top;
-  float: right;
-  padding-top: 10px;
-}
-
-/*soundcloud results*/
-
+/* soundcloud results is the div element that is rendered underneath the search */
 .soundcloud-results {
   display: none;
   width: 100%;
@@ -237,15 +220,7 @@ body.home {
   border-bottom-right-radius: 5px;
 }
 
-.song-results {
-  font-family: 'Proxima Nova';
-  font-size: 13px;
-  font-color: #ccc;
-  padding-left: 2px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
+/* created links for each item listed on soundcloud results to make them clickable */
 .song-results a {
   display: block;
   font-family: 'Proxima Nova';
@@ -257,6 +232,7 @@ body.home {
   padding-bottom: 2px;
 }
 
+/* song results on hover for the items that are listed on soundcloud searches in the search bar */
 .song-results a:hover {
   font-family: 'Proxima Nova';
   background-color: #383838;
@@ -267,6 +243,7 @@ body.home {
   padding-bottom: 2px;
 }
 
+/* is appeneded to each soundcloud result */
 .plus {
   float: right;
   padding-top: 2px;

@@ -79,6 +79,7 @@
 	      // authenticate token
 	      helpers.authHost(jwt).then(function (data) {
 	        console.log('AUTH SUCCESSFUL ON RETURN:', data);
+	        // save playlist code as state, to be transferred down to children component as property
 	        self.setState({ playlistCode: data.auth.playlistCode });
 	      })['catch'](function (err) {
 	        console.log(err);
@@ -88,7 +89,9 @@
 	      var self = this;
 	      var playlistCode = this.state.playlistCode;
 	      helpers.checkCode().then(function (snapshot) {
+	        // iterate through array of playlists(objects)
 	        for (var code in snapshot.val()) {
+	          // if it matches the playlist code, render playlist view
 	          if (code === playlistCode) {
 	            console.log('inside else statement of showinput:', snapshot.val());
 	            self.setState({ check: false, showAuth: false, showPlaylist: true });
@@ -113,6 +116,7 @@
 	    $('body').css('background-color', this.state.backgroundColor);
 	  },
 
+	  // render is in ternary conditional statements ("if the state is true, show element (playlist or auth)")
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -132,15 +136,6 @@
 	            'div',
 	            null,
 	            this.state.showPlaylist ? React.createElement(Playlist, { hasToken: this.state.hasToken, playlistCode: this.state.playlistCode }) : null
-	          ),
-	          React.createElement(
-	            'div',
-	            null,
-	            this.state.check ? React.createElement(
-	              'h1',
-	              null,
-	              'Playlist Not Found'
-	            ) : null
 	          )
 	        )
 	      )
