@@ -9,10 +9,7 @@ var SongEntry = React.createClass({
 
   loadSongsFromServer: function(receivedCode) {
 
-
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
-    console.log(receivedCode);
-    console.log("loading songs");
 
     this.firebaseRef.on('child_added', function(snapshot) {
 
