@@ -6,7 +6,6 @@ var Guest = React.createClass({
   submitHandler: function(e) {
     e.preventDefault();
     var newCode = this.refs.playlistCode.getDOMNode().value;
-    console.log('GUEST CODE:', newCode);
     this.props.updateCode(newCode);
   },
 
@@ -14,7 +13,7 @@ var Guest = React.createClass({
     return (
       <div className='guest-container'>
         <form onSubmit={this.submitHandler}>
-          <input type='text' className='input-join-jam' placeholder='JOIN A JAM' ref='playlistCode'/>
+          <input type='text' className='input-join-jam' placeholder='JOIN A JAM' ref='playlistCode' />
         </form>
       </div>
     );
