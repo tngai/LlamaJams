@@ -20,7 +20,6 @@ var Host = React.createClass({
     //if token exists, take user to playlist
     if (jwt) {
       //take to playlist
-      console.log('We have TOKEN');
     } else {
       this.setState({showButton: false});
       this.setState({showInputBar: true});

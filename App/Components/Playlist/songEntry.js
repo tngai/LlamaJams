@@ -206,7 +206,6 @@ var SongEntry = React.createClass({
     return (
       <div>
        {this.state.hasToken ? <Player togglePlayer={this.playPause}/> : null}
-       {!this.state.hasToken ? <div className='guest-box'/> : null}
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
           <div className='song-results' onClick={this.pushSong}>
@@ -220,8 +219,7 @@ var SongEntry = React.createClass({
    },
 
   componentDidMount: function() {
-    var jwt = window.localStorage.getItem('token');
-    if (this.props.playlistCode.length > 0 && !jwt) {
+    if (this.props.playlistCode.length > 0) {
       this.loadSongsFromServer(this.props.playlistCode);
       this.rerenderPlaylist();
     }
