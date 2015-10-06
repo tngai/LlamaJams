@@ -6,13 +6,11 @@ var Firebase = require('firebase');
 
 
 var SongEntry = React.createClass({
-
+  // This function fetches the right playlist from firebase based on
+  // your playlist code.
   loadSongsFromServer: function(receivedCode) {
 
-
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
-    console.log(receivedCode);
-    console.log("loading songs");
 
     this.firebaseRef.on('child_added', function(snapshot) {
 
@@ -32,10 +30,9 @@ var SongEntry = React.createClass({
       this.setState({songs: this.items})
     }.bind(this));
   },
-
+  // 
   rerenderPlaylist: function() {
     this.firebaseRef.on('child_removed', function(snapshot) {
-      console.log('inside rerenderPlaylist:', snapshot.val());
       var removeSongbyUrl = snapshot.val().songUrl;
 
       var isFound = false;
@@ -72,17 +69,8 @@ var SongEntry = React.createClass({
     }
   },
 
-  componentWillMount: function() {
-    if(this.state.hasToken) {
-      console.log('in the host')
-    } else {
-      console.log('in the guest');
-    }
-  },
-
   componentWillReceiveProps: function(nextProps) {
     this.state.hasToken = nextProps.hasToken;
-    console.log('receiving props:', nextProps.playlistCode);
     var receivedCode = nextProps.playlistCode;
     this.loadSongsFromServer(receivedCode);
     this.rerenderPlaylist();
@@ -127,7 +115,6 @@ var SongEntry = React.createClass({
     var myOptions = {
       onload : function() {
         var duration = this.duration;
-        console.log('loaded');
       },
       onfinish : function(){
         //delete first song from firebase
@@ -145,18 +132,6 @@ var SongEntry = React.createClass({
           song.play();
         })
          
-      },
-      onresume : function(){
-        console.log("resumed");
-      },
-      onstop : function(){
-        console.log("Stopped");
-      },
-      onpause : function() {
-        console.log('Paused');
-      },
-      whileplaying : function() {
-        console.log(this.position);
       }
     }
 
@@ -170,13 +145,11 @@ var SongEntry = React.createClass({
           toggle: false
         })
         window.soundManager.resumeAll();
-        console.log('in resumeAll')
       }else{
         this.setState({
           toggle: true
         })
         window.soundManager.pauseAll();
-        console.log('paudAll')
       }
     }
 
@@ -196,13 +169,10 @@ var SongEntry = React.createClass({
         var eachSong = tracks[i].title;
         var eachUrl = tracks[i].uri;
 
-
         obj.push({
           title: eachSong,
           songUrl: eachUrl
         });
-
-        console.log(obj)
        }
 
       this.setState({ 
@@ -214,7 +184,6 @@ var SongEntry = React.createClass({
   },
 
   render: function(){
-    console.log('rendered:', this.props.playlistCode);
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>
     })
