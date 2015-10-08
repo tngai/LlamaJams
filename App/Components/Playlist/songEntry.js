@@ -145,27 +145,32 @@ var SongEntry = React.createClass({
   },
   // Controls the searching and displaying of results from the SoundCloud API
   soundCloudCall: function(inputSearch) {
+    console.log('your inputSearc ',inputSearch);
     if(this.state.searchResults.length > 0) {
-      this.setState({ searchResults: this.state.searchResults.slice(0) })
-      this.forceUpdate();
-    } 
-    SC.get('https://www.googleapis.com/youtube/v3/search', { q: inputSearch, limit: 7 }, function(tracks) {
-    // Display each song title and an option to add '+' to host playlist
-      var obj = [];
-
-      for(var i = 0; i < tracks.length; i++) {
-        var eachSong = tracks[i].title;
-        var eachUrl = tracks[i].uri;
-        obj.push({
-          title: eachSong,
-          songUrl: eachUrl
-        });
-       }
-      this.setState({ 
-        searchResults: obj 
-      })
-   }.bind(this));
+      $.get( "https://www.googleapis.com/youtube/v3/search",{ q: inputSearch, limit: 7 }, function( data ) {
+         console.log('your ajax data from youtube ', data); 
+      }).bind(this);
+    }
   },
+      // this.setState({ searchResults: this.state.searchResults.slice(0) })
+      // this.forceUpdate(); 
+  //   SC.get('https://www.googleapis.com/youtube/v3/search', { q: inputSearch, limit: 7 }, function(tracks) {
+  //   // Display each song title and an option to add '+' to host playlist
+  //     var obj = [];
+
+  //     for(var i = 0; i < tracks.length; i++) {
+  //       var eachSong = tracks[i].title;
+  //       var eachUrl = tracks[i].uri;
+  //       obj.push({
+  //         title: eachSong,
+  //         songUrl: eachUrl
+  //       });
+  //      }
+  //     this.setState({ 
+  //       searchResults: obj 
+  //     })
+  //  }.bind(this));
+  // },
   render: function(){
     var songStructure = this.state.songs.map(function(song, i) {
       return <Song data={song} key={i}/>
