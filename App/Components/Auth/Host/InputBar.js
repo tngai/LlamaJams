@@ -7,7 +7,7 @@ var InputBar = React.createClass({
     e.preventDefault();
     // store host's first name in variable
     var firstname = this.refs.firstname.getDOMNode().value;
-
+  
     // create playlist and set new data node in firebase
     // returns new playlist code
     var playlistCode = helpers.createPlaylist(firstname);

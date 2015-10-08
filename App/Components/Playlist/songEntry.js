@@ -12,6 +12,7 @@ var SongEntry = React.createClass({
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
 
     this.firebaseRef.on('child_added', function(snapshot) {
+      console.log('this is the snapshot.val.title of the database', snapshot.val().title)
       var eachSong = snapshot.val()
       var eachTitle = eachSong.title;
       // The next three lines attempt to parse the song title to store
@@ -148,7 +149,7 @@ var SongEntry = React.createClass({
       this.setState({ searchResults: this.state.searchResults.slice(0) })
       this.forceUpdate();
     } 
-    SC.get('http://api.soundcloud.com/tracks/', { q: inputSearch, limit: 7 }, function(tracks) {
+    SC.get('https://www.googleapis.com/youtube/v3/search', { q: inputSearch, limit: 7 }, function(tracks) {
     // Display each song title and an option to add '+' to host playlist
       var obj = [];
 

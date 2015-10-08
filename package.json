@@ -26,6 +26,7 @@
     "firebase-token-generator": "^2.0.0",
     "fireproof": "^3.0.3",
     "react": "^0.13.3",
+    "react-youtube": "^4.1.2",
     "webpack": "^1.12.2"
   }
 }

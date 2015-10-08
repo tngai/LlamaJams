@@ -1,4 +1,5 @@
 var React = require('react');
+var YouTube = require('../../../node_modules/react-youtube/dist/YouTube');
 
 var Player = React.createClass({
   //the play and pause have booleans as their values to toggle display and hide
@@ -20,9 +21,21 @@ var Player = React.createClass({
   //passes in the current state as an argument
     this.props.togglePlayer(this.state.play)
   },
+  _onPlay: function(event){
+    
+  },
    render: function() {
   //these are used to create style properties for the images
   //this.state.play means that the play button should show, and the pause button should hide
+
+  var opts = {
+        height: '390',
+        width: '640',
+          playerVars: { 
+            autoplay: 1
+          }
+      };
+
     if(this.state.play) {
       var displayPlay = {
         display: 'block'
@@ -44,15 +57,14 @@ var Player = React.createClass({
     return (
       <div className='player-container'>
         <div className='play-pause'>
-          <div className='button-play'>
-            <img src='assets/img/button-play.png' width='50' height='50' ref='play' onClick={this.playShouldpause} style={displayPlay}/>
-          </div>
-          <div className='button-pause' >
-            <img src='assets/img/button-pause.png' width='50' height='50' ref='pause' onClick={this.playShouldpause} style={displayPause}/>
-          </div>
+          <YouTube
+            url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+            opts={opts}
+            onPlay={this._onPlay}
+          />
         </div>
       </div>
-      )
+      );
     }
 });
 

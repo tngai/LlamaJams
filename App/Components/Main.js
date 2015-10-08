@@ -2,6 +2,8 @@ var React = require('react');
 var Auth = require('./auth/auth');
 var Playlist = require('./playlist/playlist');
 var helpers = require('../utils/helpers');
+// var YouTube = require('../../node_modules/react-youtube/dist/YouTube');
+
 
 var Main = React.createClass({
 
@@ -88,4 +90,3 @@ var Main = React.createClass({
 });
 
 React.render(<Main />, document.getElementById('app'));
-''
