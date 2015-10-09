@@ -6,7 +6,7 @@ var Firebase = require('firebase');
 var SongEntry = React.createClass({
   // This function fetches the right playlist from Firebase based on
   // your playlist code.
-  loadSongsFromServer: function(receivedCode) {
+    loadSongsFromServer: function(receivedCode) {
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
     this.firebaseRef.on('child_added', function(snapshot) {
       console.log('this is the snapshot.val.title of the database', snapshot.val().title)
@@ -20,10 +20,12 @@ var SongEntry = React.createClass({
       this.items.push({
         artist: artist,
         song: song,
-        songUrl: eachSong.songUrl
+        songId: eachSong.videoId
       });
+      console.log(this.items);
+      console.log("CUrrent Song :", this.state.currentSongId)
       this.setState({songs: this.items})
-    }.bind(this));
+    }.bind(this)); 
   },
   // This rerenders the playlist every time a song is removed from Firebase
   rerenderPlaylist: function() {
@@ -54,7 +56,7 @@ var SongEntry = React.createClass({
   getInitialState: function(){
     this.items = [];
     return {
-      test:'B3eAMGXFw1o',
+      currentSongId:'',
       songs: [],
       active: false,
       input: '',
@@ -92,8 +94,17 @@ var SongEntry = React.createClass({
           title:  allResults[i].title,
           videoId: allResults[i].videoId
         });
+        if(this.state.currentSongId === ''){
+          this.setState({currentSongId: allResults[i].videoId})   
+        }
+        if(this.state.currentSongId !=='') {
+          var tempArray = this.state.songs;
+          tempArray.push(allResults[i].videoId)
+          this.setState({songs:tempArray});
+        }
       }
     }
+
    this.toggleBox();
    e.preventDefault();
   },
@@ -162,8 +173,17 @@ var SongEntry = React.createClass({
         this.setState({
           searchResults: obj
       })
-      console.log( "Data Loaded: ", this.state.searchResults);
     }.bind(this));
+  },
+  nextSong: function(){
+    var currentSongId = this.state.currentSongId;
+    var songList = this.state.songs;
+    for(var i = 0; i < songList.length; i++) {
+      if(songList[i].songId === currentSongId) {
+        this.setState({currentSongId: songList[i+1].songId });
+      }
+    }
+
   },
       // this.setState({ searchResults: this.state.searchResults.slice(0) })
       // this.forceUpdate();
@@ -202,7 +222,9 @@ var SongEntry = React.createClass({
     }
     return (
       <div> 
-       {this.state.hasToken ? <Player togglePlayer={this.playPause} songId={this.state.searchResults[0].videoId} /> : null}
+       {this.state.hasToken ? < Player togglePlayer={this.playPause} 
+                                nextSong={this.nextSong}
+                                songId={this.state.currentSongId} /> : null}
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
           <div className='song-results' onClick={this.pushSong}>
@@ -214,7 +236,8 @@ var SongEntry = React.createClass({
     );
    },
   componentDidMount: function() {
-    if (this.props.playlistCode.length > 0) {
+    var jwt = window.localStorage.getItem('token');
+    if (this.props.playlistCode.length > 0 && !jwt) {
       this.loadSongsFromServer(this.props.playlistCode);
       this.rerenderPlaylist();
     }

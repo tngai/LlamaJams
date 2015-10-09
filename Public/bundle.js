@@ -28544,8 +28544,10 @@
 	      this.items.push({
 	        artist: artist,
 	        song: song,
-	        songUrl: eachSong.songUrl
+	        songId: eachSong.videoId
 	      });
+	      console.log(this.items);
+	      console.log("CUrrent Song :", this.state.currentSongId);
 	      this.setState({ songs: this.items });
 	    }).bind(this));
 	  },
@@ -28578,7 +28580,7 @@
 	  getInitialState: function getInitialState() {
 	    this.items = [];
 	    return {
-	      test: 'B3eAMGXFw1o',
+	      currentSongId: '',
 	      songs: [],
 	      active: false,
 	      input: '',
@@ -28616,8 +28618,17 @@
 	          title: allResults[i].title,
 	          videoId: allResults[i].videoId
 	        });
+	        if (this.state.currentSongId === '') {
+	          this.setState({ currentSongId: allResults[i].videoId });
+	        }
+	        if (this.state.currentSongId !== '') {
+	          var tempArray = this.state.songs;
+	          tempArray.push(allResults[i].videoId);
+	          this.setState({ songs: tempArray });
+	        }
 	      }
 	    }
+
 	    this.toggleBox();
 	    e.preventDefault();
 	  },
@@ -28685,8 +28696,16 @@
 	      this.setState({
 	        searchResults: obj
 	      });
-	      console.log("Data Loaded: ", this.state.searchResults);
 	    }).bind(this));
+	  },
+	  nextSong: function nextSong() {
+	    var currentSongId = this.state.currentSongId;
+	    var songList = this.state.songs;
+	    for (var i = 0; i < songList.length; i++) {
+	      if (songList[i].songId === currentSongId) {
+	        this.setState({ currentSongId: songList[i + 1].songId });
+	      }
+	    }
 	  },
 	  // this.setState({ searchResults: this.state.searchResults.slice(0) })
 	  // this.forceUpdate();
@@ -28735,7 +28754,9 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause, songId: this.state.searchResults[0].videoId }) : null,
+	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause,
+	        nextSong: this.nextSong,
+	        songId: this.state.currentSongId }) : null,
 	      React.createElement(Search, { checkClick: this.handleSearchInput }),
 	      React.createElement(
 	        'div',
@@ -28750,7 +28771,8 @@
 	    );
 	  },
 	  componentDidMount: function componentDidMount() {
-	    if (this.props.playlistCode.length > 0) {
+	    var jwt = window.localStorage.getItem('token');
+	    if (this.props.playlistCode.length > 0 && !jwt) {
 	      this.loadSongsFromServer(this.props.playlistCode);
 	      this.rerenderPlaylist();
 	    }
@@ -28858,7 +28880,9 @@
 	    //passes in the current state as an argument
 	    this.props.togglePlayer(this.state.play);
 	  },
-	  _onPlay: function _onPlay(event) {},
+	  _onEnd: function _onEnd(event) {
+	    this.props.nextSong();
+	  },
 	  render: function render() {
 	    //these are used to create style properties for the images
 	    //this.state.play means that the play button should show, and the pause button should hide
@@ -28895,7 +28919,7 @@
 	        React.createElement(YouTube, {
 	          url: 'http://www.youtube.com/watch?v=' + this.props.songId,
 	          opts: opts,
-	          onPlay: this._onPlay
+	          onEnd: this._onEnd
 	        })
 	      )
 	    );

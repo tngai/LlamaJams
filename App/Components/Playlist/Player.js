@@ -19,7 +19,8 @@ var Player = React.createClass({
   //passes in the current state as an argument
     this.props.togglePlayer(this.state.play)
   },
-  _onPlay: function(event){
+  _onEnd: function(event){
+    this.props.nextSong();
   },
    render: function() {
   //these are used to create style properties for the images
@@ -54,7 +55,7 @@ var Player = React.createClass({
           <YouTube
             url={'http://www.youtube.com/watch?v=' + this.props.songId}
             opts={opts}
-            onPlay={this._onPlay}
+            onEnd={this._onEnd}
           />
         </div>
       </div>

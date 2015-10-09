@@ -27,24 +27,24 @@ module.exports = {
     var playlistCode = firstName + Math.floor(Math.random()*100);
 
     // create token with random uid string (not important, just need it to create a token)
-		var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode});
+    var token = tokenGenerator.createToken({"uid": "asfass23j4io32e23in", "playlistCode": playlistCode});
 
     // store token
-		window.localStorage.setItem('token', token);
+    window.localStorage.setItem('token', token);
 
-		var refactored = {
-			token: token,
-			playlist: 'playlist',
-			playlistCode: playlistCode
-		};
-		
-		var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
+    var refactored = {
+      token: token,
+      playlist: 'playlist',
+      playlistCode: playlistCode
+    };
+    
+    var playlistRef = new Firebase("https://llamajamsauth.firebaseio.com/" + playlistCode);
 
     // set the refactored data in database with playlistCode as item name
     playlistRef.set(refactored);
 
     return playlistCode;
-	},
+  },
 
   // GUESTS
   checkCode: function() {
@@ -52,4 +52,3 @@ module.exports = {
     return fpRef.once('value');
   }
 }
-
