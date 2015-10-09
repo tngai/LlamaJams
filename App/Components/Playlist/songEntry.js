@@ -3,14 +3,11 @@ var Search = require('./Search');
 var Song = require('./Song');
 var Player = require('./Player');
 var Firebase = require('firebase');
-
-
 var SongEntry = React.createClass({
   // This function fetches the right playlist from Firebase based on
   // your playlist code.
   loadSongsFromServer: function(receivedCode) {
     this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
-
     this.firebaseRef.on('child_added', function(snapshot) {
       console.log('this is the snapshot.val.title of the database', snapshot.val().title)
       var eachSong = snapshot.val()
@@ -57,6 +54,7 @@ var SongEntry = React.createClass({
   getInitialState: function(){
     this.items = [];
     return {
+      test:'B3eAMGXFw1o',
       songs: [],
       active: false,
       input: '',
@@ -85,14 +83,14 @@ var SongEntry = React.createClass({
   },
   // This function adds songs to firebase
   pushSong: function(e) {
-    var selectedSong = e.target.childNodes[0].data;
+    var selectedVideo = e.target.childNodes[0].data;
+    console.log("SELECTED SONG :", selectedVideo)
     var allResults = this.state.searchResults;
-
     for(var i = 0; i < allResults.length; i++) {
-      if(allResults[i].title === selectedSong) {
+      if(allResults[i].title === selectedVideo) {
         this.firebaseRef.push({
-          title: allResults[i].title,
-          songUrl: allResults[i].songUrl
+          title:  allResults[i].title,
+          videoId: allResults[i].videoId
         });
       }
     }
@@ -104,7 +102,6 @@ var SongEntry = React.createClass({
     var fbref = this.firebaseRef;
     var songs = this.state.songs;
     var player = this;
-
     var myOptions = {
       onload : function() {
         var duration = this.duration;
@@ -145,19 +142,34 @@ var SongEntry = React.createClass({
   },
   // Controls the searching and displaying of results from the SoundCloud API
   soundCloudCall: function(inputSearch) {
-    console.log('your inputSearc ',inputSearch);
-    if(this.state.searchResults.length > 0) {
-      $.get( "https://www.googleapis.com/youtube/v3/search",{ q: inputSearch, limit: 7 }, function( data ) {
-         console.log('your ajax data from youtube ', data); 
-      }).bind(this);
-    }
+    this.forceUpdate();
+    var obj = [];
+    console.log('your inputSearch: ',inputSearch);
+    $.get( "https://www.googleapis.com/youtube/v3/search", { part: 'snippet', q: inputSearch, maxResults:7,key:"AIzaSyCRYqe1V0e0geAFHMkyx8ecLq4j04weHmE" } )
+      .then(function( data ) {
+        console.log(data)
+        for(var i = 0; i < data.items.length; i++) {
+          if(data.items[i].id.videoId) {
+          console.log("Each item: ", data.items[i])
+          console.log("TITLE: ", data.items[i].snippet.title);
+          console.log("VIDEO ID: ", data.items[i].id.videoId);
+            obj.push({
+              title: data.items[i].snippet.title,
+              videoId: data.items[i].id.videoId
+            })
+          }
+        }
+        this.setState({
+          searchResults: obj
+      })
+      console.log( "Data Loaded: ", this.state.searchResults);
+    }.bind(this));
   },
       // this.setState({ searchResults: this.state.searchResults.slice(0) })
-      // this.forceUpdate(); 
+      // this.forceUpdate();
   //   SC.get('https://www.googleapis.com/youtube/v3/search', { q: inputSearch, limit: 7 }, function(tracks) {
   //   // Display each song title and an option to add '+' to host playlist
   //     var obj = [];
-
   //     for(var i = 0; i < tracks.length; i++) {
   //       var eachSong = tracks[i].title;
   //       var eachUrl = tracks[i].uri;
@@ -166,8 +178,8 @@ var SongEntry = React.createClass({
   //         songUrl: eachUrl
   //       });
   //      }
-  //     this.setState({ 
-  //       searchResults: obj 
+  //     this.setState({
+  //       searchResults: obj
   //     })
   //  }.bind(this));
   // },
@@ -185,12 +197,12 @@ var SongEntry = React.createClass({
       }
     } else {
       var display = {
-        display: 'none' 
+        display: 'none'
       }
     }
     return (
-      <div>
-       {this.state.hasToken ? <Player togglePlayer={this.playPause}/> : null}
+      <div> 
+       {this.state.hasToken ? <Player togglePlayer={this.playPause} songId={this.state.searchResults[0].videoId} /> : null}
         <Search checkClick={this.handleSearchInput}/>
         <div className='soundcloud-results' style={display}>
           <div className='song-results' onClick={this.pushSong}>
@@ -208,5 +220,4 @@ var SongEntry = React.createClass({
     }
   }
 });
-
 module.exports = SongEntry;

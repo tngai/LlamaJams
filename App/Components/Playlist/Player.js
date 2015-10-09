@@ -1,6 +1,5 @@
 var React = require('react');
 var YouTube = require('../../../node_modules/react-youtube/dist/YouTube');
-
 var Player = React.createClass({
   //the play and pause have booleans as their values to toggle display and hide
    getInitialState: function() {
@@ -9,7 +8,6 @@ var Player = React.createClass({
       pause: false
     }
   },
-
   //when playShouldpause is invoked, the play should turn into a pause button
   //the pause should turn into a play button
    playShouldpause: function() {
@@ -17,25 +15,22 @@ var Player = React.createClass({
       play: !this.state.play,
       pause: !this.state.pause
     })
-  //calls the parent songEntry with the props 'togglePlayer' 
+  //calls the parent songEntry with the props 'togglePlayer'
   //passes in the current state as an argument
     this.props.togglePlayer(this.state.play)
   },
   _onPlay: function(event){
-    
   },
    render: function() {
   //these are used to create style properties for the images
   //this.state.play means that the play button should show, and the pause button should hide
-
   var opts = {
         height: '390',
         width: '640',
-          playerVars: { 
+          playerVars: {
             autoplay: 1
           }
       };
-
     if(this.state.play) {
       var displayPlay = {
         display: 'block'
@@ -43,7 +38,7 @@ var Player = React.createClass({
       var displayPause = {
         display: 'none'
       }
-    } 
+    }
   //else is used for when pause is currently at display, so that it could show the pause and hide the play
     else {
       var displayPlay = {
@@ -53,12 +48,11 @@ var Player = React.createClass({
         display: 'block'
       }
     }
-
     return (
       <div className='player-container'>
         <div className='play-pause'>
           <YouTube
-            url={'http://www.youtube.com/watch?v=2g811Eo7K8U'}
+            url={'http://www.youtube.com/watch?v=' + this.props.songId}
             opts={opts}
             onPlay={this._onPlay}
           />
@@ -67,5 +61,4 @@ var Player = React.createClass({
       );
     }
 });
-
 module.exports = Player;

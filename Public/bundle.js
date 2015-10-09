@@ -28525,7 +28525,6 @@
 	var Song = __webpack_require__(171);
 	var Player = __webpack_require__(172);
 	var Firebase = __webpack_require__(162);
-
 	var SongEntry = React.createClass({
 	  displayName: 'SongEntry',
 
@@ -28533,7 +28532,6 @@
 	  // your playlist code.
 	  loadSongsFromServer: function loadSongsFromServer(receivedCode) {
 	    this.firebaseRef = new Firebase('https://llamajamsauth.firebaseio.com/' + receivedCode + '/playlist');
-
 	    this.firebaseRef.on('child_added', (function (snapshot) {
 	      console.log('this is the snapshot.val.title of the database', snapshot.val().title);
 	      var eachSong = snapshot.val();
@@ -28580,6 +28578,7 @@
 	  getInitialState: function getInitialState() {
 	    this.items = [];
 	    return {
+	      test: 'B3eAMGXFw1o',
 	      songs: [],
 	      active: false,
 	      input: '',
@@ -28608,14 +28607,14 @@
 	  },
 	  // This function adds songs to firebase
 	  pushSong: function pushSong(e) {
-	    var selectedSong = e.target.childNodes[0].data;
+	    var selectedVideo = e.target.childNodes[0].data;
+	    console.log("SELECTED SONG :", selectedVideo);
 	    var allResults = this.state.searchResults;
-
 	    for (var i = 0; i < allResults.length; i++) {
-	      if (allResults[i].title === selectedSong) {
+	      if (allResults[i].title === selectedVideo) {
 	        this.firebaseRef.push({
 	          title: allResults[i].title,
-	          songUrl: allResults[i].songUrl
+	          videoId: allResults[i].videoId
 	        });
 	      }
 	    }
@@ -28627,7 +28626,6 @@
 	    var fbref = this.firebaseRef;
 	    var songs = this.state.songs;
 	    var player = this;
-
 	    var myOptions = {
 	      onload: function onload() {
 	        var duration = this.duration;
@@ -28668,19 +28666,33 @@
 	  },
 	  // Controls the searching and displaying of results from the SoundCloud API
 	  soundCloudCall: function soundCloudCall(inputSearch) {
-	    console.log('your inputSearc ', inputSearch);
-	    if (this.state.searchResults.length > 0) {
-	      $.get("https://www.googleapis.com/youtube/v3/search", function (data) {
-	        console.log('your ajax data from youtube ', data);
-	      }).bind(this);
-	    }
+	    this.forceUpdate();
+	    var obj = [];
+	    console.log('your inputSearch: ', inputSearch);
+	    $.get("https://www.googleapis.com/youtube/v3/search", { part: 'snippet', q: inputSearch, maxResults: 7, key: "AIzaSyCRYqe1V0e0geAFHMkyx8ecLq4j04weHmE" }).then((function (data) {
+	      console.log(data);
+	      for (var i = 0; i < data.items.length; i++) {
+	        if (data.items[i].id.videoId) {
+	          console.log("Each item: ", data.items[i]);
+	          console.log("TITLE: ", data.items[i].snippet.title);
+	          console.log("VIDEO ID: ", data.items[i].id.videoId);
+	          obj.push({
+	            title: data.items[i].snippet.title,
+	            videoId: data.items[i].id.videoId
+	          });
+	        }
+	      }
+	      this.setState({
+	        searchResults: obj
+	      });
+	      console.log("Data Loaded: ", this.state.searchResults);
+	    }).bind(this));
 	  },
 	  // this.setState({ searchResults: this.state.searchResults.slice(0) })
 	  // this.forceUpdate();
 	  //   SC.get('https://www.googleapis.com/youtube/v3/search', { q: inputSearch, limit: 7 }, function(tracks) {
 	  //   // Display each song title and an option to add '+' to host playlist
 	  //     var obj = [];
-
 	  //     for(var i = 0; i < tracks.length; i++) {
 	  //       var eachSong = tracks[i].title;
 	  //       var eachUrl = tracks[i].uri;
@@ -28723,7 +28735,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause }) : null,
+	      this.state.hasToken ? React.createElement(Player, { togglePlayer: this.playPause, songId: this.state.searchResults[0].videoId }) : null,
 	      React.createElement(Search, { checkClick: this.handleSearchInput }),
 	      React.createElement(
 	        'div',
@@ -28744,7 +28756,6 @@
 	    }
 	  }
 	});
-
 	module.exports = SongEntry;
 
 /***/ },
@@ -28826,7 +28837,6 @@
 
 	var React = __webpack_require__(1);
 	var YouTube = __webpack_require__(173);
-
 	var Player = React.createClass({
 	  displayName: 'Player',
 
@@ -28837,7 +28847,6 @@
 	      pause: false
 	    };
 	  },
-
 	  //when playShouldpause is invoked, the play should turn into a pause button
 	  //the pause should turn into a play button
 	  playShouldpause: function playShouldpause() {
@@ -28853,7 +28862,6 @@
 	  render: function render() {
 	    //these are used to create style properties for the images
 	    //this.state.play means that the play button should show, and the pause button should hide
-
 	    var opts = {
 	      height: '390',
 	      width: '640',
@@ -28861,7 +28869,6 @@
 	        autoplay: 1
 	      }
 	    };
-
 	    if (this.state.play) {
 	      var displayPlay = {
 	        display: 'block'
@@ -28879,7 +28886,6 @@
 	          display: 'block'
 	        };
 	      }
-
 	    return React.createElement(
 	      'div',
 	      { className: 'player-container' },
@@ -28887,7 +28893,7 @@
 	        'div',
 	        { className: 'play-pause' },
 	        React.createElement(YouTube, {
-	          url: 'http://www.youtube.com/watch?v=2g811Eo7K8U',
+	          url: 'http://www.youtube.com/watch?v=' + this.props.songId,
 	          opts: opts,
 	          onPlay: this._onPlay
 	        })
@@ -28895,7 +28901,6 @@
 	    );
 	  }
 	});
-
 	module.exports = Player;
 
 /***/ },
